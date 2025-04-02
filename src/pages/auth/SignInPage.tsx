@@ -45,7 +45,7 @@ export default function SignInPage() {
                 }
               />
               <div className={'mt-4 w-full'}>
-                <Button onClick={() => page.formik.handleSubmit()} fullWidth>
+                <Button loading={page.loading} onClick={() => page.formik.handleSubmit()} fullWidth>
                   Masuk
                 </Button>
               </div>
