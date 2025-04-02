@@ -1,9 +1,7 @@
+import RouteBuilder from './routes/route-builder.tsx';
+
 function App() {
-  return (
-    <div>
-      <h1>HELLO WORD</h1>
-    </div>
-  );
+  return <RouteBuilder />;
 }
 
 export default App;
