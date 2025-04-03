@@ -15,9 +15,7 @@ export default class ErrorService {
     } else {
       let message;
       if (axios.isAxiosError(error) && error.response) {
-        message = error?.response?.data?.errors?.message
-          ? error?.response?.data?.errors?.message
-          : 'Terjadi Kesalahan Pada Sistem';
+        message = error?.response?.data?.message ? error?.response?.data?.message : 'Terjadi Kesalahan Pada Sistem';
       } else message = String(error);
       return this.handleSnackbar(message);
     }
