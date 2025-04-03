@@ -24,6 +24,7 @@ export default function Button(props: IProps) {
       info: 'border-blue-500 text-blue-500 bg-transparent hover:bg-blue-500/5 active:bg-blue-500/10',
       error: 'border-red-500 text-red-500 bg-transparent hover:bg-red-500/5 active:bg-red-500/10',
       gray: 'border-gray-500 text-gray-500 bg-transparent hover:bg-gray-500/5 active:bg-gray-500/10',
+      white: 'border-white text-white bg-transparent hover:bg-white/5 active:bg-white/10',
     };
 
     const solidClasses = {
@@ -31,6 +32,7 @@ export default function Button(props: IProps) {
       info: 'bg-blue-500 text-white border-blue-500 hover:bg-blue-600 active:bg-blue-400',
       error: 'bg-red-500 text-white border-red-500 hover:bg-red-600 active:bg-red-400',
       gray: 'bg-gray-500 text-white border-gray-500 hover:bg-gray-600 active:bg-gray-400',
+      white: 'bg-white text-primary-main border-white hover:bg-gray-100 active:bg-gray-200',
     };
 
     const textClasses = {
@@ -38,6 +40,7 @@ export default function Button(props: IProps) {
       info: 'text-blue-500 hover:underline',
       error: 'text-red-500 hover:underline',
       gray: 'text-gray-500 hover:underline',
+      white: 'text-white hover:underline',
     };
 
     if (props.variant === 'outlined') {
@@ -100,7 +103,7 @@ interface IProps {
   variant?: 'outlined' | 'solid' | 'text';
   size?: 'sm' | 'default';
   disable?: boolean;
-  color?: 'primary' | 'info' | 'error' | 'gray';
+  color?: 'primary' | 'info' | 'error' | 'gray' | 'white';
   fullWidth?: boolean;
   startIcon?: ReactNode;
   endIcon?: ReactNode;

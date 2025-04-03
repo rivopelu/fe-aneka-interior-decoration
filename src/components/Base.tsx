@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import { PAGE_TYPE_ENUM } from '../enums/page-type-enum.ts';
+import TopBar from './TopBar.tsx';
 
 export default function Base(props: IProps) {
   function checkComponent() {
@@ -7,7 +8,7 @@ export default function Base(props: IProps) {
       case PAGE_TYPE_ENUM.PRIMARY:
         return (
           <div>
-            <h1>PRIMARY</h1>
+            <TopBar />
             <div>{props.children}</div>
           </div>
         );
