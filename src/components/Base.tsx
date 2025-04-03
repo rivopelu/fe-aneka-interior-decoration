@@ -3,6 +3,7 @@ import { PAGE_TYPE_ENUM } from '../enums/page-type-enum.ts';
 import TopBar from './TopBar.tsx';
 import { AnimatePresence, motion } from 'framer-motion';
 import Sidebar from './Sidebar.tsx';
+import { TopBarDashboard } from './TopBarDashboard.tsx';
 
 export default function Base(props: IProps) {
   function checkComponent() {
@@ -30,6 +31,8 @@ export default function Base(props: IProps) {
           <div className="flex min-h-screen">
             <Sidebar />
             <div className="flex-1 flex flex-col">
+              <TopBarDashboard />
+              <div className={'h-4'}></div>
               <AnimatePresence mode="wait">
                 <motion.div
                   key={location.pathname}
