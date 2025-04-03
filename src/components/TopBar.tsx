@@ -7,7 +7,7 @@ import { ROUTES } from '../routes/routes.ts';
 import Dropdown from './Dropdown.tsx';
 import Avatar from './Avatar.tsx';
 import { ListGroup, ListItem } from './List.tsx';
-import { MdDashboard, MdLogout, MdPerson } from 'react-icons/md';
+import { MdDashboard, MdLogout } from 'react-icons/md';
 import { ACCOUNT_ROLE_ENUM } from '../enums/account-role-enum.ts';
 
 export default function TopBar() {
