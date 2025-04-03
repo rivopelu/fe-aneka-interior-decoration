@@ -7,7 +7,8 @@ import { ROUTES } from '../routes/routes.ts';
 import Dropdown from './Dropdown.tsx';
 import Avatar from './Avatar.tsx';
 import { ListGroup, ListItem } from './List.tsx';
-import { MdLogout, MdPerson } from 'react-icons/md';
+import { MdDashboard, MdLogout, MdPerson } from 'react-icons/md';
+import { ACCOUNT_ROLE_ENUM } from '../enums/account-role-enum.ts';
 
 export default function TopBar() {
   const auth = useAuth();
@@ -27,7 +28,7 @@ export default function TopBar() {
               <div>
                 <Dropdown toggle={<Avatar size={'sm'} src={user.profile_picture} name={user.name} />}>
                   <ListGroup>
-                    <ListItem label={'Profile'} icon={<MdPerson />} />
+                    {user.role === ACCOUNT_ROLE_ENUM.ADMIN && <ListItem label={'Dashboard'} icon={<MdDashboard />} />}
                     <ListItem onClick={auth.logOut} className={'text-red-600'} label={'Logout'} icon={<MdLogout />} />
                   </ListGroup>
                 </Dropdown>
