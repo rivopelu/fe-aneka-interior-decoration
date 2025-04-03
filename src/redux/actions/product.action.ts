@@ -7,7 +7,7 @@ import { productSlice } from "../reducers/product.reducers";
 
 export class ProductAction extends BaseActions {
   private action = productSlice.actions
-  listProuct(param?: string) {
+  listProduct(param?: string) {
     return async (dispatch: Dispatch) => {
       dispatch(this.action.listProduct({ loading: true, data: undefined }))
       await this.httpService.GET(ENDPOINT.LIST_PRODUCT() + (param || "")).then((res: BaseResponsePaginated<IResListProduct[]>) => {
