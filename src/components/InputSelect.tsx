@@ -48,7 +48,7 @@ function InputSelect(props: IProps) {
           styles={{
             control: (provided, state) => ({
               ...provided,
-              borderRadius: '0.375rem',
+              borderRadius: '1px',
               borderColor: state.isFocused ? '#00000080' : '#D1D5DB',
               boxShadow: state.isFocused ? '0 0 0 2px rgba(0,0,0,0.2)' : 'none',
               '&:hover': { borderColor: '#00000080' },

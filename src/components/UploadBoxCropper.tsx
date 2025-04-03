@@ -117,7 +117,7 @@ export default function UploadBoxCropperArea(props: IProps) {
       {props.label && <LabelInputField label={props.label} required={props.required} />}
       <div
         className={twMerge(
-          'bg-gray-50 border border-dashed  rounded-md   h-48',
+          'bg-gray-50 border border-dashed  rounded-none   h-48',
           props.errorMessage ? 'border-red-700' : 'border-slate-300',
         )}
       >

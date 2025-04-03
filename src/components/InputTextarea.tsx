@@ -30,7 +30,7 @@ export default function InputTextArea(props: IProps) {
           }}
           placeholder={props.placeholder || ''}
           className={twMerge(
-            'py-2 px-3 w-full duration-300 bg-white outline-2 outline-gray-300 rounded-md',
+            'py-2 px-3 w-full duration-300 bg-white outline-2 outline-gray-300 rounded-xs',
             'focus:outline-black/50 ',
             props.startIcon ? 'pl-9' : '',
             props.endIcon ? 'pr-9' : '',

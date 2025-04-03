@@ -14,7 +14,7 @@ export default function Button(props: IProps) {
       case 'medium':
         return 'rounded-md';
       default:
-        return 'rounded-lg';
+        return 'rounded-xs';
     }
   }
 
