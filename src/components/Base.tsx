@@ -36,7 +36,7 @@ export default function Base(props: IProps) {
               <AnimatePresence mode="wait">
                 <motion.div
                   key={location.pathname}
-                  className="flex-1"
+                  className="flex-1 pb-20"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}

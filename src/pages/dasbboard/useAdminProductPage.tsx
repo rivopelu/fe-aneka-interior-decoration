@@ -3,15 +3,17 @@ import { ProductAction } from "../../redux/actions/product.action"
 import { IProductReducers } from "../../redux/reducers/product.reducers"
 import { useAppDispatch, useAppSelector } from "../../redux/store"
 import { IResListProduct } from "../../types/response/IResListProduct"
+import { IPaginatedChange } from "../../types/type/IPaginatedChange"
 
 export function useAdminProductPage() {
   const dispatch = useAppDispatch()
   const productActions = new ProductAction()
   const Product: IProductReducers = useAppSelector(state => state.Product)
   const loading = Product.listProduct?.loading
+  const paginatedData = Product?.listProduct?.paginated_data
 
   const [listData, setListData] = useState<IResListProduct[]>([])
-  const [page, setPage] = useState<number>(1)
+  const [page] = useState<number>(0)
   const [size] = useState<number>(10)
 
 
@@ -31,5 +33,9 @@ export function useAdminProductPage() {
   }, [Product?.listProduct?.data])
 
 
-  return { listData }
+  function onChangePage(e: IPaginatedChange) {
+    fetchData(e.page, e.size)
+  }
+
+  return { listData, loading, paginatedData, onChangePage }
 }

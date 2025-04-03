@@ -6,10 +6,13 @@ import { NumberFormatterHelper } from "../../helper/number-format-helper"
 import { IResListProduct } from "../../types/response/IResListProduct"
 import { ITableColumn } from "../../types/type/ITableColumn"
 import { useAdminProductPage } from "./useAdminProductPage"
+import Pagination from "../../components/Pagination"
+import DateHelper from "../../helper/date-helper"
 
 export default function AdminProductPage() {
   const page = useAdminProductPage()
   const numberFormat = new NumberFormatterHelper()
+  const dateHelper = new DateHelper()
 
   const column: ITableColumn<IResListProduct>[] = [
     {
@@ -28,6 +31,12 @@ export default function AdminProductPage() {
       headerTitle: "Kategory",
       component: (e) => (
         <div >{e.category_name}</div>
+      )
+    },
+    {
+      headerTitle: "Tanggal Di Buat",
+      component: (e) => (
+        <div>{e.created_date ? dateHelper.toFormatDate(new Date(e.created_date), "dd LLLL, yyyy - HH:mm") : "-"}</div>
       )
     },
     {
@@ -50,7 +59,10 @@ export default function AdminProductPage() {
   return (
     <div className="mt-8">
       <PageContainer>
-        <Table column={column} data={page.listData} />
+        <Table column={column} data={page.listData} loading={page.loading} />
+        {
+          page.paginatedData && <Pagination onPageChange={page.onChangePage} data={page.paginatedData} />
+        }
       </PageContainer>
     </div>
   )

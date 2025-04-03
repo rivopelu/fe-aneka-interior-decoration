@@ -8,5 +8,6 @@ export interface IResListProduct {
   category_id: string;
   category_slug: string;
   image: string;
+  created_date: string;
   price: number;
 }
