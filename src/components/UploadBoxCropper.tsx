@@ -16,7 +16,7 @@ import PopupModal from './PopupModal.tsx';
 
 export default function UploadBoxCropperArea(props: IProps) {
   const errorService = new ErrorService()
-  const [aspectSet] = useState<number>(props.ratio || 16 / 9);
+  const [aspectSet] = useState<number>(props.ratio || 1);
   const [zoom, setZoom] = useState<number>(1);
   const [crop, setCrop] = useState<Point>({ x: 0, y: 0 });
   const [fileCrop, setFileCrop] = useState<any | null>(null);

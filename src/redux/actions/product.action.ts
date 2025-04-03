@@ -1,9 +1,10 @@
 import { Dispatch } from "redux";
 import { ENDPOINT } from "../../constants/endpoint";
 import { IResListProduct } from "../../types/response/IResListProduct";
-import { BaseResponsePaginated } from "../../types/response/IResModel";
+import { BaseResponse, BaseResponsePaginated } from "../../types/response/IResModel";
 import BaseActions from "../base-actions";
 import { productSlice } from "../reducers/product.reducers";
+import { IResMasterData } from "../../types/response/IResMasterData";
 
 export class ProductAction extends BaseActions {
   private action = productSlice.actions
@@ -18,6 +19,17 @@ export class ProductAction extends BaseActions {
         dispatch(this.action.listProduct({ loading: false, data: undefined }))
       })
     }
+  }
 
+  listCategory() {
+    return async (dispatch: Dispatch) => {
+      dispatch(this.action.listCategory({ loading: true, data: undefined }))
+      await this.httpService.GET(ENDPOINT.LIST_CATEGORY()).then((res: BaseResponse<IResMasterData[]>) => {
+        dispatch(this.action.listCategory({ loading: false, data: res.data.response_data }))
+      }).catch(e => {
+        this.errorService.fetchApiError(e)
+        dispatch(this.action.listCategory({ loading: false, data: undefined }))
+      })
+    }
   }
 }
