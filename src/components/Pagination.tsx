@@ -21,10 +21,10 @@ export default function Pagination({ data, onPageChange }: PaginationProps) {
     }
   } else {
     pages.push(1);
-    if (page > visiblePages + 1) pages.push("...");
+    if (page > visiblePages + 3) pages.push("...");
 
     const startPage = Math.max(2, page - 1);
-    const endPage = Math.min(page_count - 1, page + 1);
+    const endPage = Math.min(page_count - 1, page + 3);
     for (let i = startPage; i <= endPage; i++) pages.push(i);
 
     if (page < page_count - visiblePages) pages.push("...");

@@ -9,6 +9,7 @@ import { NumberFormatterHelper } from "../../helper/number-format-helper"
 import { IResListProduct } from "../../types/response/IResListProduct"
 import { ITableColumn } from "../../types/type/ITableColumn"
 import { useAdminProductPage } from "./useAdminProductPage"
+import Button from "../../components/Button"
 
 export default function AdminProductPage() {
   const page = useAdminProductPage()
@@ -48,7 +49,7 @@ export default function AdminProductPage() {
     },
     {
       component: () => (
-        <div>
+        <div className="px-10">
           <IconButton className="text-primary-main">
             <MdInfo />
           </IconButton>
@@ -60,6 +61,10 @@ export default function AdminProductPage() {
   return (
     <div className="mt-8">
       <PageContainer>
+        <div className="flex items-center justify-between">
+          <h3 className="text-3xl">Product Management</h3>
+          <Button>Buat produk baru</Button>
+        </div>
         <div className="grid grid-cols-2">
           <InputSearch active={page.activeSearch} value={page.searchValue} onChange={page.setSearchValue} onEnter={page.onSearch} onReset={page.onResetSearch} placeholder="Cari nama produk" />
         </div>
