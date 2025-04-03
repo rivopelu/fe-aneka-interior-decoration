@@ -3,6 +3,7 @@ export const ROUTES = {
   SIGN_IN: () => `/auth/sign-in`,
   SIGN_UP: () => `/auth/sign-up`,
   ADMIN: {
-    DASHBOARD: () => `/admin/dashboard`
+    DASHBOARD: () => `/admin/dashboard`,
+    PRODUCT : () => `/admin/product`
   }
 };

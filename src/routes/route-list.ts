@@ -2,6 +2,7 @@ import { PAGE_TYPE_ENUM } from '../enums/page-type-enum.ts';
 import HomePage from '../pages/HomePage.tsx';
 import SignInPage from '../pages/auth/SignInPage.tsx';
 import SignUpPage from '../pages/auth/SignUpPage.tsx';
+import AdminProductPage from '../pages/dasbboard/AdminProductPage.tsx';
 import DashboardPage from '../pages/dasbboard/DashboardPage.tsx';
 import { IRouteList } from '../types/type/IRouteList.ts';
 import { ROUTES } from './routes.ts';
@@ -29,5 +30,10 @@ export const adminRouteList: IRouteList[] = [
     route: ROUTES.ADMIN.DASHBOARD(),
     type: PAGE_TYPE_ENUM.DASHBOARD,
     elements: DashboardPage,
+  },
+  {
+    route: ROUTES.ADMIN.PRODUCT(),
+    type: PAGE_TYPE_ENUM.DASHBOARD,
+    elements: AdminProductPage,
   },
 ]
