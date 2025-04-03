@@ -1,11 +1,11 @@
 import { Route, Routes } from 'react-router-dom';
-import { RouteList } from './route-list.ts';
+import { adminRouteList, RouteList } from './route-list.ts';
 import Base from '../components/Base.tsx';
 
 export default function RouteBuilder() {
   return (
     <Routes>
-      {RouteList.map((item, i) => {
+      {[...RouteList, ...adminRouteList].map((item, i) => {
         const Element = item.elements;
         return (
           <Route

@@ -28,7 +28,9 @@ export default function TopBar() {
               <div>
                 <Dropdown toggle={<Avatar size={'sm'} src={user.profile_picture} name={user.name} />}>
                   <ListGroup>
-                    {user.role === ACCOUNT_ROLE_ENUM.ADMIN && <ListItem label={'Dashboard'} icon={<MdDashboard />} />}
+                    {user.role === ACCOUNT_ROLE_ENUM.ADMIN && <Link to={ROUTES.ADMIN.DASHBOARD()}>
+                      <ListItem label={'Dashboard'} icon={<MdDashboard />} />
+                    </Link>}
                     <ListItem onClick={auth.logOut} className={'text-red-600'} label={'Logout'} icon={<MdLogout />} />
                   </ListGroup>
                 </Dropdown>
