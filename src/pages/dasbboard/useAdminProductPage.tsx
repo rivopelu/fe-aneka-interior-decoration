@@ -1,0 +1,35 @@
+import { useEffect, useState } from "react"
+import { ProductAction } from "../../redux/actions/product.action"
+import { IProductReducers } from "../../redux/reducers/product.reducers"
+import { useAppDispatch, useAppSelector } from "../../redux/store"
+import { IResListProduct } from "../../types/response/IResListProduct"
+
+export function useAdminProductPage() {
+  const dispatch = useAppDispatch()
+  const productActions = new ProductAction()
+  const Product: IProductReducers = useAppSelector(state => state.Product)
+  const loading = Product.listProduct?.loading
+
+  const [listData, setListData] = useState<IResListProduct[]>([])
+  const [page, setPage] = useState<number>(1)
+  const [size] = useState<number>(10)
+
+
+  function fetchData(page: number, size: number) {
+    const queryString = `?page=${page}&size=${size}`
+    dispatch(productActions.listProduct(queryString))
+  }
+  useEffect(() => {
+    fetchData(page, size)
+  }, [])
+
+
+  useEffect(() => {
+    const data = Product.listProduct?.data
+    if (!data) return
+    setListData(data)
+  }, [Product?.listProduct?.data])
+
+
+  return { listData }
+}
