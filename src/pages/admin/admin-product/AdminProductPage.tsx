@@ -1,15 +1,17 @@
 import { MdInfo } from "react-icons/md"
-import IconButton from "../../components/IconButton"
-import { InputSearch } from "../../components/InputSearch"
-import PageContainer from "../../components/PageContainer"
-import Pagination from "../../components/Pagination"
-import Table from "../../components/Table"
-import DateHelper from "../../helper/date-helper"
-import { NumberFormatterHelper } from "../../helper/number-format-helper"
-import { IResListProduct } from "../../types/response/IResListProduct"
-import { ITableColumn } from "../../types/type/ITableColumn"
+import IconButton from "../../../components/IconButton"
+import { InputSearch } from "../../../components/InputSearch"
+import PageContainer from "../../../components/PageContainer"
+import Pagination from "../../../components/Pagination"
+import Table from "../../../components/Table"
+import DateHelper from "../../../helper/date-helper"
+import { NumberFormatterHelper } from "../../../helper/number-format-helper"
+import { IResListProduct } from "../../../types/response/IResListProduct"
+import { ITableColumn } from "../../../types/type/ITableColumn"
+import Button from "../../../components/Button"
 import { useAdminProductPage } from "./useAdminProductPage"
-import Button from "../../components/Button"
+import { Link } from "react-router-dom"
+import { ROUTES } from "../../../routes/routes"
 
 export default function AdminProductPage() {
   const page = useAdminProductPage()
@@ -63,7 +65,9 @@ export default function AdminProductPage() {
       <PageContainer>
         <div className="flex items-center justify-between">
           <h3 className="text-3xl">Product Management</h3>
-          <Button>Buat produk baru</Button>
+          <Link to={ROUTES.ADMIN.NEW_PRODUCT()}>
+            <Button>Buat produk baru</Button>
+          </Link>
         </div>
         <div className="grid grid-cols-2">
           <InputSearch active={page.activeSearch} value={page.searchValue} onChange={page.setSearchValue} onEnter={page.onSearch} onReset={page.onResetSearch} placeholder="Cari nama produk" />

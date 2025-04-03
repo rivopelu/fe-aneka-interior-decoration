@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react"
-import { ProductAction } from "../../redux/actions/product.action"
-import { IProductReducers } from "../../redux/reducers/product.reducers"
-import { useAppDispatch, useAppSelector } from "../../redux/store"
-import { IResListProduct } from "../../types/response/IResListProduct"
-import { IPaginatedChange } from "../../types/type/IPaginatedChange"
+import { ProductAction } from "../../../redux/actions/product.action"
+import { IProductReducers } from "../../../redux/reducers/product.reducers"
+import { useAppDispatch, useAppSelector } from "../../../redux/store"
+import { IResListProduct } from "../../../types/response/IResListProduct"
+import { IPaginatedChange } from "../../../types/type/IPaginatedChange"
 
 export function useAdminProductPage() {
   const dispatch = useAppDispatch()
