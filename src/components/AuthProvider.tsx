@@ -10,6 +10,7 @@ import { ROUTES } from '../routes/routes.ts';
 import { HttpService } from '../services/http.service.ts';
 import { AuthContext } from '../context/AuthContext.ts';
 import ErrorService from '../services/error.service.ts';
+import toast from 'react-hot-toast';
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
   const rawUser = localStorage.getItem(LOCAL_STORAGE_KEY.USER);
@@ -36,6 +37,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         localStorage.setItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN, resToken);
         localStorage.setItem(LOCAL_STORAGE_KEY.USER, JSON.stringify(userData));
         localStorage.setItem(LOCAL_STORAGE_KEY.PRIVILEGES, JSON.stringify(privilege));
+        toast.success("Berhasil masuk")
         navigate(ROUTES.HOME());
       })
       .catch((e) => {

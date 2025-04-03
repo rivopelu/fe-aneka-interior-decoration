@@ -3,6 +3,7 @@ import { ROUTES } from './routes.ts';
 import { PAGE_TYPE_ENUM } from '../enums/page-type-enum.ts';
 import HomePage from '../pages/HomePage.tsx';
 import SignInPage from '../pages/auth/SignInPage.tsx';
+import SignUpPage from '../pages/auth/SignUpPage.tsx';
 
 export const RouteList: IRouteList[] = [
   {
@@ -14,5 +15,10 @@ export const RouteList: IRouteList[] = [
     route: ROUTES.SIGN_IN(),
     type: PAGE_TYPE_ENUM.FULL_PAGE,
     elements: SignInPage,
+  },
+  {
+    route: ROUTES.SIGN_UP(),
+    type: PAGE_TYPE_ENUM.FULL_PAGE,
+    elements: SignUpPage,
   },
 ];
