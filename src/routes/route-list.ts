@@ -7,6 +7,7 @@ import { IRouteList } from '../types/type/IRouteList.ts';
 import { ROUTES } from './routes.ts';
 import AdminProductPage from '../pages/admin/admin-product/AdminProductPage.tsx';
 import NewProductPage from '../pages/admin/admin-product/NewProductPage.tsx';
+import detailProductPage from '../pages/user/DetailProductPage.tsx';
 
 export const RouteList: IRouteList[] = [
   {
@@ -23,6 +24,11 @@ export const RouteList: IRouteList[] = [
     route: ROUTES.SIGN_UP(),
     type: PAGE_TYPE_ENUM.FULL_PAGE,
     elements: SignUpPage,
+  },
+  {
+    route: ROUTES.DETAIL_PRODUCT(":id"),
+    type: PAGE_TYPE_ENUM.PRIMARY,
+    elements: detailProductPage,
   },
 ];
 

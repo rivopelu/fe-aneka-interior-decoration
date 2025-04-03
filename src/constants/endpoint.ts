@@ -4,5 +4,6 @@ export const ENDPOINT = {
   LIST_PRODUCT: () => `/v1/product/list`,
   UPLOAD: () => `/v1/upload`,
   LIST_CATEGORY: () => `/v1/category/list`,
-  CREATE_PRODUCT: () => `/v1/product/new`
+  CREATE_PRODUCT: () => `/v1/product/new`,
+  DETAIL_PRODUCT: (id: string) => `/v1/product/detail/${id}`
 };

@@ -2,6 +2,7 @@ export const ROUTES = {
   HOME: () => `/`,
   SIGN_IN: () => `/auth/sign-in`,
   SIGN_UP: () => `/auth/sign-up`,
+  DETAIL_PRODUCT: (id: string) => `/product/detail/${id}`,
   ADMIN: {
     DASHBOARD: () => `/admin/dashboard`,
     PRODUCT: () => `/admin/product`,

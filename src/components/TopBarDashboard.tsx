@@ -12,7 +12,7 @@ export function TopBarDashboard() {
     const hours = new Date().getHours();
 
     if (hours < 12) {
-      return `Selemat Page, `;
+      return `Selemat Pagi, `;
     } else if (hours < 18) {
       return `Selamat Siang, `;
     } else {

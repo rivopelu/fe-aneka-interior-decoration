@@ -5,6 +5,7 @@ import { BaseResponse, BaseResponsePaginated } from "../../types/response/IResMo
 import BaseActions from "../base-actions";
 import { productSlice } from "../reducers/product.reducers";
 import { IResMasterData } from "../../types/response/IResMasterData";
+import { IResDetailProduct } from "../../types/response/IResDetailProduct";
 
 export class ProductAction extends BaseActions {
   private action = productSlice.actions
@@ -29,6 +30,18 @@ export class ProductAction extends BaseActions {
       }).catch(e => {
         this.errorService.fetchApiError(e)
         dispatch(this.action.listCategory({ loading: false, data: undefined }))
+      })
+    }
+  }
+
+  getDetailProduct(id: string) {
+    return async (dispatch: Dispatch) => {
+      dispatch(this.action.detailProduct({ loading: true, data: undefined }))
+      await this.httpService.GET(ENDPOINT.DETAIL_PRODUCT(id)).then((res: BaseResponse<IResDetailProduct>) => {
+        dispatch(this.action.detailProduct({ loading: false, data: res.data.response_data }))
+      }).catch(e => {
+        this.errorService.fetchApiError(e)
+        dispatch(this.action.detailProduct({ loading: false, data: undefined }))
       })
     }
   }
