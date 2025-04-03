@@ -1,6 +1,6 @@
-import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
-import { combineReducers } from './combine-reducers.ts';
 import { ThunkDispatch, configureStore } from '@reduxjs/toolkit';
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+import { combineReducers } from './combine-reducers';
 
 const store = configureStore({
   reducer: combineReducers,
