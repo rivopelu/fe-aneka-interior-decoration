@@ -8,6 +8,8 @@ import { NumberFormatterHelper } from "../../helper/number-format-helper";
 import { IBreadcrumbData } from "../../types/type/IBreadcrumbData";
 import { useDetailProductPage } from "./useDetailProductPage";
 import CardLoading from "../../components/CardLoading";
+import ProductCard from "../../components/ProductCard";
+import Grid from "../../components/Grid";
 
 export default function detailProductPage() {
   const page = useDetailProductPage()
@@ -77,6 +79,19 @@ export default function detailProductPage() {
                       </Flex>
                     </CardBody>
                   </Card>
+                }
+                {
+                  page.listProduct.length > 0 &&
+                  <>
+                    <h1 className="text-2xl text-gray-600">Produk Lainnya</h1>
+                    <Grid grid={5} gap="sm">
+                      {
+                        page.listProduct.map((item, i) => (
+                          <ProductCard key={i} data={item} />
+                        ))
+                      }
+                    </Grid>
+                  </>
                 }
               </>
           }
