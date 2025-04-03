@@ -3,10 +3,10 @@ import RouteBuilder from './routes/route-builder.tsx';
 
 function App() {
   return (
-    <>
+    <main className='bg-base-background'>
       <Toaster position="bottom-center" reverseOrder={false} />
       <RouteBuilder />
-    </>
+    </main>
   );
 }
 
