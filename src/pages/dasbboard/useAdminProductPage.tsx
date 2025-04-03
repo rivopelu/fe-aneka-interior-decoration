@@ -12,18 +12,35 @@ export function useAdminProductPage() {
   const loading = Product.listProduct?.loading
   const paginatedData = Product?.listProduct?.paginated_data
 
+  const [searchValue, setSearchValue] = useState<string>("")
+  const [activeSearch, setActiveSearch] = useState<boolean>(false)
+
   const [listData, setListData] = useState<IResListProduct[]>([])
   const [page] = useState<number>(0)
   const [size] = useState<number>(10)
 
 
-  function fetchData(page: number, size: number) {
-    const queryString = `?page=${page}&size=${size}`
+  function fetchData(page: number, size: number, name?: string) {
+    let queryString = `?page=${page}&size=${size}`
+    if (name) {
+      queryString = queryString + `&name=${name}`
+    }
     dispatch(productActions.listProduct(queryString))
   }
   useEffect(() => {
     fetchData(page, size)
   }, [])
+
+  function onSearch(e: string) {
+    fetchData(page, size, e)
+    setActiveSearch(true)
+  }
+
+  function onResetSearch() {
+    fetchData(page, size)
+    setSearchValue("")
+    setActiveSearch(false)
+  }
 
 
   useEffect(() => {
@@ -37,5 +54,5 @@ export function useAdminProductPage() {
     fetchData(e.page, e.size)
   }
 
-  return { listData, loading, paginatedData, onChangePage }
+  return { listData, activeSearch, searchValue, setSearchValue, loading, paginatedData, onChangePage, onSearch, onResetSearch }
 }

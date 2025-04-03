@@ -1,13 +1,14 @@
 import { MdInfo } from "react-icons/md"
 import IconButton from "../../components/IconButton"
+import { InputSearch } from "../../components/InputSearch"
 import PageContainer from "../../components/PageContainer"
+import Pagination from "../../components/Pagination"
 import Table from "../../components/Table"
+import DateHelper from "../../helper/date-helper"
 import { NumberFormatterHelper } from "../../helper/number-format-helper"
 import { IResListProduct } from "../../types/response/IResListProduct"
 import { ITableColumn } from "../../types/type/ITableColumn"
 import { useAdminProductPage } from "./useAdminProductPage"
-import Pagination from "../../components/Pagination"
-import DateHelper from "../../helper/date-helper"
 
 export default function AdminProductPage() {
   const page = useAdminProductPage()
@@ -59,6 +60,9 @@ export default function AdminProductPage() {
   return (
     <div className="mt-8">
       <PageContainer>
+        <div className="grid grid-cols-2">
+          <InputSearch active={page.activeSearch} value={page.searchValue} onChange={page.setSearchValue} onEnter={page.onSearch} onReset={page.onResetSearch} placeholder="Cari nama produk" />
+        </div>
         <Table column={column} data={page.listData} loading={page.loading} />
         {
           page.paginatedData && <Pagination onPageChange={page.onChangePage} data={page.paginatedData} />
