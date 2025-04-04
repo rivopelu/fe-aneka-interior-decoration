@@ -13,4 +13,5 @@ export const ENDPOINT = {
   GET_DESTINATION: (q: string) => `/order/v1/destination?q=${q}`,
   CREATE_SHIPPING_ADDRESS: () => `/account/v1/create-shipping-address`,
   LIST_SHIPPING_ADDRESS: () => `/account/v1/shipping-address`,
+  CHECK_DELIVERY_FEE: (code: string) => `/order/v1/check-delivery-fee?code=${code}`,
 };

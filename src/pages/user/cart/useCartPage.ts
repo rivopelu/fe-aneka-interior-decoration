@@ -7,18 +7,30 @@ import { IReqAddToCart } from '../../../types/request/IReqAddToCart.ts';
 import { ENDPOINT } from '../../../constants/endpoint.ts';
 import ErrorService from '../../../services/error.service.ts';
 import toast from 'react-hot-toast';
+import { AccountActions } from '../../../redux/actions/account.actions.ts';
+import { IResListShippingAddress } from '../../../types/response/IResListShippingAddress.ts';
+import { BaseResponse } from '../../../types/response/IResModel.ts';
+import { IResCheckDeliveryFee } from '../../../types/response/IResCheckDeliveryFee.ts';
 
 export function useCartPage() {
   const dispatch = useAppDispatch();
   const cartAction = new CartAction();
   const httpService = new HttpService();
+  const accountAction = new AccountActions();
   const errorService = new ErrorService();
   const Cart = useAppSelector((state) => state.Cart);
+  const Account = useAppSelector((state) => state.Account);
   const countCart = Cart?.countCart?.data;
   const loading = Cart?.listCart?.loading;
+  const listAddress = Account?.listAddress?.data || [];
+  const loadingAddress = Account?.listAddress?.loading;
 
   const [listCart, setListCart] = useState<IResListCart[]>([]);
   const [totalPrice, setTotalPrice] = useState<number>(0);
+  const [loadingCheckDelivery, setLoadingCheckDelivery] = useState<boolean>(false);
+  const [selectedAddress, setSelectedAddress] = useState<IResListShippingAddress | undefined>(undefined);
+  const [listDeliveryService, setListDeliveryService] = useState<IResCheckDeliveryFee[] | undefined>(undefined);
+  const [selectedDeliveryService, setSelectedDeliveryService] = useState<IResCheckDeliveryFee | undefined>(undefined);
 
   useEffect(() => {
     if (listCart.length) {
@@ -61,6 +73,7 @@ export function useCartPage() {
   }
   useEffect(() => {
     fetchCart();
+    dispatch(accountAction.getListAddress());
   }, []);
 
   function onReduceQty(cartId: string) {
@@ -107,5 +120,39 @@ export function useCartPage() {
     }
   }
 
-  return { countCart, listCart, onAddQty, onReduceQty, loading, removeCart, totalPrice };
+  function onCheckDeliveryFee() {
+    if (selectedAddress) {
+      setLoadingCheckDelivery(true);
+      httpService
+        .GET(ENDPOINT.CHECK_DELIVERY_FEE(selectedAddress.destination_code))
+        .then((res: BaseResponse<IResCheckDeliveryFee[]>) => {
+          setListDeliveryService(res.data.response_data);
+          setLoadingCheckDelivery(false);
+        })
+        .catch((e) => {
+          errorService.fetchApiError(e);
+          setLoadingCheckDelivery(false);
+        });
+    }
+  }
+
+  return {
+    countCart,
+    listCart,
+    onAddQty,
+    onReduceQty,
+    loading,
+    removeCart,
+    totalPrice,
+    listAddress,
+    loadingAddress,
+    setSelectedAddress,
+    onCheckDeliveryFee,
+    selectedAddress,
+    listDeliveryService,
+    loadingCheckDelivery,
+    setListDeliveryService,
+    setSelectedDeliveryService,
+    selectedDeliveryService,
+  };
 }

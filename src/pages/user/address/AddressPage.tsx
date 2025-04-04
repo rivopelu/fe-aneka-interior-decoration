@@ -44,7 +44,16 @@ export default function AddressPage() {
 
   return (
     <PageContainer className={'mt-10'}>
-      <PageTitle title={'Alamat pengiriman'} breadcrumb={breadcrumb} />
+      <div className={'flex items-center justify-between'}>
+        <PageTitle title={'Alamat pengiriman'} breadcrumb={breadcrumb} />
+        {page.datalist.length > 0 ? (
+          <Link to={ROUTES.NEW_ADDRESS()}>
+            <Button>Tambah Alamat Pengriman</Button>
+          </Link>
+        ) : (
+          <></>
+        )}
+      </div>
       {page.loading ? (
         <CardLoading />
       ) : (
