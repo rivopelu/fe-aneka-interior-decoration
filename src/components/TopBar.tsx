@@ -24,8 +24,10 @@ export default function TopBar() {
   const user = auth.user;
 
   useEffect(() => {
-    dispatch(cartAction.getCount()).then();
-  }, []);
+    if (auth.user) {
+      dispatch(cartAction.getCount()).then();
+    }
+  }, [auth.user]);
 
   return (
     <div className={'bg-gradient-to-b h-top-home-height from-primary-700 to-primary-600'}>
