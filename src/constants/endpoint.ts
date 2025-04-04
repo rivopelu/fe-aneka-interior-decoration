@@ -10,4 +10,6 @@ export const ENDPOINT = {
   LIST_CART: () => `/chart/v1/list`,
   ADD_TO_CART: () => `/chart/v1/add`,
   REMOVE_CHART_ITEM: (id: string) => `/chart/v1/remove/${id}`,
+  GET_DESTINATION: (q: string) => `/order/v1/destination?q=${q}`,
+  CREATE_SHIPPING_ADDRESS: () => `/account/v1/create-shipping-address`,
 };

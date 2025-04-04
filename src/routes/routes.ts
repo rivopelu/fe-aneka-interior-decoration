@@ -4,6 +4,8 @@ export const ROUTES = {
   SIGN_UP: () => `/auth/sign-up`,
   DETAIL_PRODUCT: (id: string) => `/product/detail/${id}`,
   CART: () => `/cart`,
+  ADDRESS: () => `/address`,
+  NEW_ADDRESS: () => `/address/new`,
   ADMIN: {
     DASHBOARD: () => `/admin/dashboard`,
     PRODUCT: () => `/admin/product`,

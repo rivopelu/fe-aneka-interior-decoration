@@ -56,7 +56,7 @@ export default function TopBar() {
                         <ListItem label={'Dashboard'} icon={<MdDashboard />} />
                       </Link>
                     )}
-                    <Link to={ROUTES.ADMIN.DASHBOARD()}>
+                    <Link to={ROUTES.ADDRESS()}>
                       <ListItem label={'Alamat'} icon={<MdLocalShipping />} />
                     </Link>
                     <ListItem onClick={auth.logOut} className={'text-red-600'} label={'Logout'} icon={<MdLogout />} />

@@ -9,6 +9,8 @@ import AdminProductPage from '../pages/admin/admin-product/AdminProductPage.tsx'
 import NewProductPage from '../pages/admin/admin-product/NewProductPage.tsx';
 import detailProductPage from '../pages/user/detail-product/DetailProductPage.tsx';
 import CartPage from '../pages/user/cart/CartPage.tsx';
+import AddressPage from '../pages/user/address/AddressPage.tsx';
+import NewAddressPage from '../pages/user/address/newAddressPage.tsx';
 
 export const RouteList: IRouteList[] = [
   {
@@ -38,6 +40,16 @@ export const userRouteList: IRouteList[] = [
     route: ROUTES.CART(),
     type: PAGE_TYPE_ENUM.PRIMARY,
     elements: CartPage,
+  },
+  {
+    route: ROUTES.ADDRESS(),
+    type: PAGE_TYPE_ENUM.PRIMARY,
+    elements: AddressPage,
+  },
+  {
+    route: ROUTES.NEW_ADDRESS(),
+    type: PAGE_TYPE_ENUM.PRIMARY,
+    elements: NewAddressPage,
   },
 ];
 
