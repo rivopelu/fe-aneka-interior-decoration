@@ -9,4 +9,5 @@ export const ENDPOINT = {
   COUNT_CART: () => `/chart/v1/count`,
   LIST_CART: () => `/chart/v1/list`,
   ADD_TO_CART: () => `/chart/v1/add`,
+  REMOVE_CHART_ITEM: (id: string) => `/chart/v1/remove/${id}`,
 };

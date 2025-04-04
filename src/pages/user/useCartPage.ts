@@ -28,6 +28,19 @@ export function useCartPage() {
     });
   }
 
+  function removeCart(chartId: string) {
+    httpService
+      .DELETE(ENDPOINT.REMOVE_CHART_ITEM(chartId))
+      .then(() => {
+        fetchCart();
+        dispatch(cartAction.getCount()).then();
+        toast.success('Item berhasil dihapus');
+      })
+      .catch((e) => {
+        errorService.fetchApiError(e);
+      });
+  }
+
   useEffect(() => {
     if (!Cart?.listCart?.data) return;
     setListCart(Cart?.listCart?.data);
@@ -48,7 +61,11 @@ export function useCartPage() {
         qty: findData.qty - 1,
         total_price: findData.price_per_qty * (findData.qty - 1),
       };
-      addCart(newData.product_id, newData.qty);
+      if (newData.qty === 0) {
+        removeCart(newData.cart_id);
+      } else {
+        addCart(newData.product_id, newData.qty);
+      }
       const listData = listCart.map((e) => {
         if (e.cart_id === cartId) {
           return newData;
@@ -80,5 +97,5 @@ export function useCartPage() {
     }
   }
 
-  return { countCart, listCart, onAddQty, onReduceQty, loading };
+  return { countCart, listCart, onAddQty, onReduceQty, loading, removeCart };
 }

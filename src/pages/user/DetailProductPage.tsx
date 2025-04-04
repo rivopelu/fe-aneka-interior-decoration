@@ -65,6 +65,8 @@ export default function detailProductPage() {
                         </div>
                         <div>
                           <Button
+                            loading={page.loadingAdd}
+                            onClick={page.onAddToCart}
                             disable={page.qty === 0}
                             startIcon={<MdShoppingBasket />}
                             className="rounded-none"

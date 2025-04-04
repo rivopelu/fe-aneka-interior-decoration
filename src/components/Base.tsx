@@ -10,7 +10,7 @@ export default function Base(props: IProps) {
     switch (props.type) {
       case PAGE_TYPE_ENUM.PRIMARY:
         return (
-          <div>
+          <div className={'mb-10'}>
             <TopBar />
             <AnimatePresence mode="wait">
               <motion.div

@@ -33,7 +33,12 @@ export default function CartPage() {
                             {numberFormat.toRupiah(item.price_per_qty)} x {item.qty}
                           </p>
                         </div>
-                        <Button variant={'outlined'} color={'error'} startIcon={<MdDelete />}>
+                        <Button
+                          onClick={() => page.removeCart(item.cart_id)}
+                          variant={'outlined'}
+                          color={'error'}
+                          startIcon={<MdDelete />}
+                        >
                           Hapus
                         </Button>
                       </div>
