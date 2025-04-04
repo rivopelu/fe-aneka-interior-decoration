@@ -3,9 +3,10 @@ export const ROUTES = {
   SIGN_IN: () => `/auth/sign-in`,
   SIGN_UP: () => `/auth/sign-up`,
   DETAIL_PRODUCT: (id: string) => `/product/detail/${id}`,
+  CART: () => `/cart`,
   ADMIN: {
     DASHBOARD: () => `/admin/dashboard`,
     PRODUCT: () => `/admin/product`,
-    NEW_PRODUCT: () => `/admin/product/new`
-  }
+    NEW_PRODUCT: () => `/admin/product/new`,
+  },
 };

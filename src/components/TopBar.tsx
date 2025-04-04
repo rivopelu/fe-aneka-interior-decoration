@@ -7,12 +7,26 @@ import { ROUTES } from '../routes/routes.ts';
 import Dropdown from './Dropdown.tsx';
 import Avatar from './Avatar.tsx';
 import { ListGroup, ListItem } from './List.tsx';
-import { MdDashboard, MdLogout } from 'react-icons/md';
+import { MdDashboard, MdLogout, MdShoppingBag } from 'react-icons/md';
 import { ACCOUNT_ROLE_ENUM } from '../enums/account-role-enum.ts';
+import IconButton from './IconButton.tsx';
+import Tooltip from './Tooltip.tsx';
+import BadgeIcon from './BadgeIcon.tsx';
+import { useAppDispatch, useAppSelector } from '../redux/store.ts';
+import { CartAction } from '../redux/actions/cart.action.ts';
+import { useEffect } from 'react';
 
 export default function TopBar() {
+  const dispatch = useAppDispatch();
+  const cartAction = new CartAction();
+  const Cart = useAppSelector((state) => state.Cart);
   const auth = useAuth();
   const user = auth.user;
+
+  useEffect(() => {
+    dispatch(cartAction.getCount()).then();
+  }, []);
+
   return (
     <div className={'bg-gradient-to-b h-top-home-height from-primary-700 to-primary-600'}>
       <PageContainer className={'h-full '}>
@@ -25,12 +39,23 @@ export default function TopBar() {
           </div>
           <div className={'flex justify-end items-center'}>
             {user ? (
-              <div>
+              <div className={'flex items-center gap-8'}>
+                <Tooltip content={'Keranjang'} position={'bottom'}>
+                  <Link to={ROUTES.CART()}>
+                    <BadgeIcon count={Cart?.countCart?.data}>
+                      <IconButton className={'active:bg-gray-100 rounded-full'}>
+                        <MdShoppingBag className={'text-primary-main '} />
+                      </IconButton>
+                    </BadgeIcon>
+                  </Link>
+                </Tooltip>
                 <Dropdown toggle={<Avatar size={'sm'} src={user.profile_picture} name={user.name} />}>
                   <ListGroup>
-                    {user.role === ACCOUNT_ROLE_ENUM.ADMIN && <Link to={ROUTES.ADMIN.DASHBOARD()}>
-                      <ListItem label={'Dashboard'} icon={<MdDashboard />} />
-                    </Link>}
+                    {user.role === ACCOUNT_ROLE_ENUM.ADMIN && (
+                      <Link to={ROUTES.ADMIN.DASHBOARD()}>
+                        <ListItem label={'Dashboard'} icon={<MdDashboard />} />
+                      </Link>
+                    )}
                     <ListItem onClick={auth.logOut} className={'text-red-600'} label={'Logout'} icon={<MdLogout />} />
                   </ListGroup>
                 </Dropdown>

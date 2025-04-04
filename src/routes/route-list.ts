@@ -8,6 +8,7 @@ import { ROUTES } from './routes.ts';
 import AdminProductPage from '../pages/admin/admin-product/AdminProductPage.tsx';
 import NewProductPage from '../pages/admin/admin-product/NewProductPage.tsx';
 import detailProductPage from '../pages/user/DetailProductPage.tsx';
+import CartPage from '../pages/user/CartPage.tsx';
 
 export const RouteList: IRouteList[] = [
   {
@@ -26,9 +27,17 @@ export const RouteList: IRouteList[] = [
     elements: SignUpPage,
   },
   {
-    route: ROUTES.DETAIL_PRODUCT(":id"),
+    route: ROUTES.DETAIL_PRODUCT(':id'),
     type: PAGE_TYPE_ENUM.PRIMARY,
     elements: detailProductPage,
+  },
+];
+
+export const userRouteList: IRouteList[] = [
+  {
+    route: ROUTES.CART(),
+    type: PAGE_TYPE_ENUM.PRIMARY,
+    elements: CartPage,
   },
 ];
 
@@ -48,4 +57,4 @@ export const adminRouteList: IRouteList[] = [
     type: PAGE_TYPE_ENUM.DASHBOARD,
     elements: NewProductPage,
   },
-]
+];
