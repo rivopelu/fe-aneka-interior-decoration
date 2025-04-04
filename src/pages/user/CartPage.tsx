@@ -7,6 +7,7 @@ import QuantityButton from '../../components/QuantityButton.tsx';
 import { MdDelete } from 'react-icons/md';
 import Button from '../../components/Button.tsx';
 import CardLoading from '../../components/CardLoading.tsx';
+import Divider from '../../components/Divider.tsx';
 
 export default function CartPage() {
   const page = useCartPage();
@@ -61,7 +62,15 @@ export default function CartPage() {
 
           <Card className={'w-md h-fit'}>
             <CardBody>
-              <h1>HELLO</h1>
+              <h1 className={'text-2xl '}>Ringkasan Belanja</h1>
+            </CardBody>
+            <Divider />
+            <CardBody className={'grid gap-6'}>
+              <div>
+                <div className={'text-gray-600 '}>Total</div>
+                <h1 className={'text-3xl '}>{numberFormat.toRupiah(page.totalPrice)}</h1>
+              </div>
+              <Button fullWidth>BELI</Button>
             </CardBody>
           </Card>
         </div>

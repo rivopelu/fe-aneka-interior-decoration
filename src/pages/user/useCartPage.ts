@@ -16,7 +16,17 @@ export function useCartPage() {
   const Cart = useAppSelector((state) => state.Cart);
   const countCart = Cart?.countCart?.data;
   const loading = Cart?.listCart?.loading;
+
   const [listCart, setListCart] = useState<IResListCart[]>([]);
+  const [totalPrice, setTotalPrice] = useState<number>(0);
+
+  useEffect(() => {
+    if (listCart.length) {
+      const dataPrice = listCart.map((e) => e.total_price);
+      const sum = dataPrice.reduce((acc, curr) => acc + curr, 0);
+      setTotalPrice(sum);
+    }
+  }, [listCart]);
 
   function addCart(productId: string, qty: number) {
     const data: IReqAddToCart = {
@@ -97,5 +107,5 @@ export function useCartPage() {
     }
   }
 
-  return { countCart, listCart, onAddQty, onReduceQty, loading, removeCart };
+  return { countCart, listCart, onAddQty, onReduceQty, loading, removeCart, totalPrice };
 }
