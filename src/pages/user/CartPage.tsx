@@ -4,7 +4,6 @@ import { useCartPage } from './useCartPage.ts';
 import { Card, CardBody } from '../../components/Card.tsx';
 import { NumberFormatterHelper } from '../../helper/number-format-helper.ts';
 import QuantityButton from '../../components/QuantityButton.tsx';
-import IconButton from '../../components/IconButton.tsx';
 import { MdDelete } from 'react-icons/md';
 import Button from '../../components/Button.tsx';
 
@@ -35,7 +34,11 @@ export default function CartPage() {
                     </div>
                     <div className={'flex items-center gap-2'}>
                       <div className={'w-40'}>
-                        <QuantityButton />
+                        <QuantityButton
+                          quantity={item.qty}
+                          onAddQty={() => page.onAddQty(item.cart_id)}
+                          onReduceQty={() => page.onReduceQty(item.cart_id)}
+                        />
                       </div>
                       <div>{numberFormat.toRupiah(item.total_price)}</div>
                     </div>
