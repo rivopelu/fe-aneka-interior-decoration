@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
-import { ProductAction } from '../../redux/actions/product.action';
-import { useAppDispatch, useAppSelector } from '../../redux/store';
+import { ProductAction } from '../../../redux/actions/product.action.ts';
+import { useAppDispatch, useAppSelector } from '../../../redux/store.ts';
 import { useParams } from 'react-router-dom';
-import { IResListProduct } from '../../types/response/IResListProduct';
-import { CartAction } from '../../redux/actions/cart.action.ts';
-import { IReqAddToCart } from '../../types/request/IReqAddToCart.ts';
-import { HttpService } from '../../services/http.service.ts';
-import { ENDPOINT } from '../../constants/endpoint.ts';
-import ErrorService from '../../services/error.service.ts';
+import { IResListProduct } from '../../../types/response/IResListProduct.ts';
+import { CartAction } from '../../../redux/actions/cart.action.ts';
+import { IReqAddToCart } from '../../../types/request/IReqAddToCart.ts';
+import { HttpService } from '../../../services/http.service.ts';
+import { ENDPOINT } from '../../../constants/endpoint.ts';
+import ErrorService from '../../../services/error.service.ts';
 import toast from 'react-hot-toast';
 
 export function useDetailProductPage() {

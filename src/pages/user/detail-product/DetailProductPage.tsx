@@ -1,16 +1,16 @@
 import { MdShoppingBasket } from 'react-icons/md';
-import Breadcrumbd from '../../components/Breadcrumbs';
-import Button from '../../components/Button';
-import { Card, CardBody } from '../../components/Card';
-import Flex from '../../components/Flex';
-import PageContainer from '../../components/PageContainer';
-import { NumberFormatterHelper } from '../../helper/number-format-helper';
-import { IBreadcrumbData } from '../../types/type/IBreadcrumbData';
-import { useDetailProductPage } from './useDetailProductPage';
-import CardLoading from '../../components/CardLoading';
-import ProductCard from '../../components/ProductCard';
-import Grid from '../../components/Grid';
-import QuantityButton from '../../components/QuantityButton.tsx';
+import Breadcrumbd from '../../../components/Breadcrumbs.tsx';
+import Button from '../../../components/Button.tsx';
+import { Card, CardBody } from '../../../components/Card.tsx';
+import Flex from '../../../components/Flex.tsx';
+import PageContainer from '../../../components/PageContainer.tsx';
+import { NumberFormatterHelper } from '../../../helper/number-format-helper.ts';
+import { IBreadcrumbData } from '../../../types/type/IBreadcrumbData.ts';
+import { useDetailProductPage } from './useDetailProductPage.ts';
+import CardLoading from '../../../components/CardLoading.tsx';
+import ProductCard from '../../../components/ProductCard.tsx';
+import Grid from '../../../components/Grid.tsx';
+import QuantityButton from '../../../components/QuantityButton.tsx';
 
 export default function detailProductPage() {
   const page = useDetailProductPage();

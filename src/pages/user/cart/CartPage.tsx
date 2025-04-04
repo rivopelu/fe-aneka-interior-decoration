@@ -1,13 +1,13 @@
-import PageContainer from '../../components/PageContainer.tsx';
-import { PageTitle } from '../../components/PageTItle.tsx';
+import PageContainer from '../../../components/PageContainer.tsx';
+import { PageTitle } from '../../../components/PageTItle.tsx';
 import { useCartPage } from './useCartPage.ts';
-import { Card, CardBody } from '../../components/Card.tsx';
-import { NumberFormatterHelper } from '../../helper/number-format-helper.ts';
-import QuantityButton from '../../components/QuantityButton.tsx';
+import { Card, CardBody } from '../../../components/Card.tsx';
+import { NumberFormatterHelper } from '../../../helper/number-format-helper.ts';
+import QuantityButton from '../../../components/QuantityButton.tsx';
 import { MdDelete } from 'react-icons/md';
-import Button from '../../components/Button.tsx';
-import CardLoading from '../../components/CardLoading.tsx';
-import Divider from '../../components/Divider.tsx';
+import Button from '../../../components/Button.tsx';
+import CardLoading from '../../../components/CardLoading.tsx';
+import Divider from '../../../components/Divider.tsx';
 
 export default function CartPage() {
   const page = useCartPage();

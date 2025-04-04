@@ -7,8 +7,8 @@ import { IRouteList } from '../types/type/IRouteList.ts';
 import { ROUTES } from './routes.ts';
 import AdminProductPage from '../pages/admin/admin-product/AdminProductPage.tsx';
 import NewProductPage from '../pages/admin/admin-product/NewProductPage.tsx';
-import detailProductPage from '../pages/user/DetailProductPage.tsx';
-import CartPage from '../pages/user/CartPage.tsx';
+import detailProductPage from '../pages/user/detail-product/DetailProductPage.tsx';
+import CartPage from '../pages/user/cart/CartPage.tsx';
 
 export const RouteList: IRouteList[] = [
   {
