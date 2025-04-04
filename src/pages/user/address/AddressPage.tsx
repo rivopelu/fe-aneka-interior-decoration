@@ -7,8 +7,12 @@ import Button from '../../../components/Button.tsx';
 import { MdAdd } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import { ROUTES } from '../../../routes/routes.ts';
+import { useAddressPage } from './useAddressPage.ts';
+import DateHelper from '../../../helper/date-helper.ts';
 
 export default function AddressPage() {
+  const page = useAddressPage();
+  const dateHelper = new DateHelper();
   const breadcrumb: IBreadcrumbData[] = [
     {
       label: 'Beranda',
@@ -41,8 +45,29 @@ export default function AddressPage() {
   return (
     <PageContainer className={'mt-10'}>
       <PageTitle title={'Alamat pengiriman'} breadcrumb={breadcrumb} />
-      {emptyState()}
-      <CardLoading />
+      {page.loading ? (
+        <CardLoading />
+      ) : (
+        <>
+          {page.datalist.length === 0 ? (
+            emptyState()
+          ) : (
+            <div className={'grid gap-3'}>
+              {page.datalist.map((item, i) => (
+                <Card key={i}>
+                  <CardBody>
+                    <div className={'text-gray-400'}>{item.destination_code}</div>
+                    <div>{`${item.province}, ${item.city}, ${item.subdistrict}`}</div>
+                    <div
+                      className={'text-gray-400 mt-2'}
+                    >{`dibuat tanggal ${dateHelper.toFormatDate(new Date(item.created_date), 'dd LLLL, yyyy - HH:mm')}`}</div>
+                  </CardBody>
+                </Card>
+              ))}
+            </div>
+          )}
+        </>
+      )}
     </PageContainer>
   );
 }

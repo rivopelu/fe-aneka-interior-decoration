@@ -12,4 +12,5 @@ export const ENDPOINT = {
   REMOVE_CHART_ITEM: (id: string) => `/chart/v1/remove/${id}`,
   GET_DESTINATION: (q: string) => `/order/v1/destination?q=${q}`,
   CREATE_SHIPPING_ADDRESS: () => `/account/v1/create-shipping-address`,
+  LIST_SHIPPING_ADDRESS: () => `/account/v1/shipping-address`,
 };
