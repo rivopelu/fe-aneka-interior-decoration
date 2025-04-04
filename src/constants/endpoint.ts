@@ -8,4 +8,5 @@ export const ENDPOINT = {
   DETAIL_PRODUCT: (id: string) => `/v1/product/detail/${id}`,
   COUNT_CART: () => `/chart/v1/count`,
   LIST_CART: () => `/chart/v1/list`,
+  ADD_TO_CART: () => `/chart/v1/add`,
 };
