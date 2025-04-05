@@ -17,23 +17,13 @@ import IconButton from '../../../components/IconButton.tsx';
 import { MdClose } from 'react-icons/md';
 import Button from '../../../components/Button.tsx';
 import Grid from '../../../components/Grid.tsx';
+import AlertBar from '../../../components/AlertBar.tsx';
+import { checkActiveStepOrder } from '../../../utils/check-stepper-order.ts';
 
 export default function AdminDetailOrderPage() {
   const page = useAdminDetailOrderPage();
   const dateHelper = new DateHelper();
   const numberFormat = new NumberFormatterHelper();
-  function checkActiveStep() {
-    switch (page.data?.status) {
-      case ORDER_STATUS_ENUM.WAITING_PAYMENT:
-        return 0;
-      case ORDER_STATUS_ENUM.PENDING:
-        return 1;
-      case ORDER_STATUS_ENUM.IN_PROGRESS:
-        return 2;
-      default:
-        return 0;
-    }
-  }
 
   function componentRejectModal() {
     return (
@@ -83,21 +73,31 @@ export default function AdminDetailOrderPage() {
         <>
           {page.data && (
             <div className={'grid gap-4'}>
-              <Card>
-                <CardBody>
-                  <Stepper
-                    data={[
-                      'Order Dibuat',
-                      'Pembayaran',
-                      'Menunggu Konfirmasi',
-                      'Pesanan diproses',
-                      'Dalam Pengiriman',
-                      'selesai',
-                    ]}
-                    activeStepIndex={checkActiveStep()}
-                  />
-                </CardBody>
-              </Card>
+              {page.data && page.data.status !== ORDER_STATUS_ENUM.REJECTED && (
+                <Card>
+                  <CardBody>
+                    <Stepper
+                      data={[
+                        'Order Dibuat',
+                        'Pembayaran',
+                        'Menunggu Konfirmasi',
+                        'Pesanan diproses',
+                        'Dalam Pengiriman',
+                        'selesai',
+                      ]}
+                      activeStepIndex={checkActiveStepOrder(page.data.status)}
+                    />
+                  </CardBody>
+                </Card>
+              )}
+
+              {page.data && page.data.status === ORDER_STATUS_ENUM.REJECTED && (
+                <AlertBar
+                  variant={'error'}
+                  title={'Pesanan di tolak'}
+                  description={`pesanan di tolak karena ${page?.data?.reject_reason || ''}`}
+                />
+              )}
               <div className="flex gap-3">
                 <div className="grid gap-3  w-xl">
                   <Card>

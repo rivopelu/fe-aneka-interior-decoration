@@ -13,6 +13,7 @@ import { NumberFormatterHelper } from '../../../helper/number-format-helper';
 import { ROUTES } from '../../../routes/routes';
 import { IBreadcrumbData } from '../../../types/type/IBreadcrumbData';
 import { useDetailMyOrderPage } from './useDetailMyOrderPage';
+import { checkActiveStepOrder } from '../../../utils/check-stepper-order.ts';
 
 export default function DetailMyOrderPage() {
   const page = useDetailMyOrderPage();
@@ -32,17 +33,6 @@ export default function DetailMyOrderPage() {
     },
   ];
 
-  function checkActiveStep() {
-    switch (page.data?.status) {
-      case ORDER_STATUS_ENUM.WAITING_PAYMENT:
-        return 0;
-      case ORDER_STATUS_ENUM.PENDING:
-        return 1;
-      default:
-        return 0;
-    }
-  }
-
   return (
     <PageContainer className="my-8">
       <PageTitle breadcrumb={breadcrumb} />
@@ -53,27 +43,37 @@ export default function DetailMyOrderPage() {
           <>
             {page.data && (
               <div className="grid gap-5">
+                {page.data && page.data.status === ORDER_STATUS_ENUM.REJECTED && (
+                  <AlertBar
+                    variant={'error'}
+                    title={'Pesanan di tolak'}
+                    description={`pesanan kamu ditolak karena ${page?.data?.reject_reason || ''}`}
+                  />
+                )}
                 {page.data.status === ORDER_STATUS_ENUM.WAITING_PAYMENT && (
                   <AlertBar
                     description="Silahkan selesaikan pembayaran, setelah itu upload bukti pembayaran untuk mengkonfirmasi pesanan"
                     title="Silahkan selesaikan pembayaran"
                   />
                 )}
-                <Card>
-                  <CardBody>
-                    <Stepper
-                      data={[
-                        'Order Dibuat',
-                        'Pembayaran',
-                        'Menunggu Konfirmasi',
-                        'Pesanan diproses',
-                        'Dalam Pengiriman',
-                        'selesai',
-                      ]}
-                      activeStepIndex={checkActiveStep()}
-                    />
-                  </CardBody>
-                </Card>
+
+                {page.data.status !== ORDER_STATUS_ENUM.REJECTED && (
+                  <Card>
+                    <CardBody>
+                      <Stepper
+                        data={[
+                          'Order Dibuat',
+                          'Pembayaran',
+                          'Menunggu Konfirmasi',
+                          'Pesanan diproses',
+                          'Dalam Pengiriman',
+                          'selesai',
+                        ]}
+                        activeStepIndex={checkActiveStepOrder(page.data.status)}
+                      />
+                    </CardBody>
+                  </Card>
+                )}
                 <div className="flex gap-3">
                   <div className="grid gap-3  w-xl">
                     <Card className="w-full h-fit">
