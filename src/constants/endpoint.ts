@@ -17,5 +17,6 @@ export const ENDPOINT = {
   CREATE_ORDER: () => `/order/v1/create`,
   LIST_ORDER_USER: () => `/order/v1/user/list`,
   DETAIL_ORDER: (id: string) => `/order/v1/detail/${id}`,
-  UPLOAD_PAYMENT_IMAGE: (id: string) => `/order/v1/upload-payment-image/${id}`
+  UPLOAD_PAYMENT_IMAGE: (id: string) => `/order/v1/upload-payment-image/${id}`,
+  GET_LIST_ORDER_ADMIN: () => `/order/v1/admin/list`,
 };

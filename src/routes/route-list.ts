@@ -13,6 +13,7 @@ import AddressPage from '../pages/user/address/AddressPage.tsx';
 import NewAddressPage from '../pages/user/address/newAddressPage.tsx';
 import { MyOrderPage } from '../pages/user/my-order/MyOrderPage.tsx';
 import DetailMyOrderPage from '../pages/user/my-order/DetailMyOrderPage.tsx';
+import AdminOrderListPage from '../pages/admin/admin-order/AdminOrderListPage.tsx';
 
 export const RouteList: IRouteList[] = [
   {
@@ -44,7 +45,7 @@ export const userRouteList: IRouteList[] = [
     elements: MyOrderPage,
   },
   {
-    route: ROUTES.DETAIL_MY_ORDER(":id"),
+    route: ROUTES.DETAIL_MY_ORDER(':id'),
     type: PAGE_TYPE_ENUM.PRIMARY,
     elements: DetailMyOrderPage,
   },
@@ -66,6 +67,11 @@ export const userRouteList: IRouteList[] = [
 ];
 
 export const adminRouteList: IRouteList[] = [
+  {
+    route: ROUTES.ADMIN.ORDER(),
+    type: PAGE_TYPE_ENUM.DASHBOARD,
+    elements: AdminOrderListPage,
+  },
   {
     route: ROUTES.ADMIN.DASHBOARD(),
     type: PAGE_TYPE_ENUM.DASHBOARD,

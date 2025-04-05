@@ -6,6 +6,7 @@ export default function IconButton(props: IProps) {
     <button
       onClick={props.onClick}
       className={twMerge(
+        'text-primary-main',
         'cursor-pointer duration-300 h-8 rounded-md border-2 flex items-center justify-center w-8 bg-white',
         'hover:bg-gray-100',
         'active:bg-primary-main/5 active:scale-110',

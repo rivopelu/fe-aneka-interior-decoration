@@ -12,5 +12,6 @@ export const ROUTES = {
     DASHBOARD: () => `/admin/dashboard`,
     PRODUCT: () => `/admin/product`,
     NEW_PRODUCT: () => `/admin/product/new`,
+    ORDER: () => `/admin/order`,
   },
 };

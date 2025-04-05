@@ -1,11 +1,18 @@
-import { BasePayload, IPayloadData } from '../../types/response/IResModel.ts';
+import {
+  BasePayload,
+  BasePayloadPaginated,
+  IPayloadData,
+  IPayloadDataPaginated,
+} from '../../types/response/IResModel.ts';
 import { IResListOrderUser } from '../../types/response/IResListOrderUser.ts';
 import { createSlice } from '@reduxjs/toolkit';
 import { IResDetailOrder } from '../../types/response/IResDetailorder.ts';
+import { IResListOrderAdmin } from '../../types/response/IResListOrderAdmin.ts';
 
 export interface IOrderReducer {
   listOrderUser?: IPayloadData<IResListOrderUser[]>;
-  detailOrder?: IPayloadData<IResDetailOrder>
+  listOrderAdmin?: IPayloadDataPaginated<IResListOrderAdmin[]>;
+  detailOrder?: IPayloadData<IResDetailOrder>;
 }
 
 const initState: IOrderReducer = {};
@@ -18,7 +25,10 @@ export const OrderSlice = createSlice({
       state.listOrderUser = action.payload;
     },
     detailOrder: (state: IOrderReducer, action: BasePayload<IResDetailOrder>) => {
-      state.detailOrder = action.payload
-    }
+      state.detailOrder = action.payload;
+    },
+    listOrderAdmin: (state: IOrderReducer, action: BasePayloadPaginated<IResListOrderAdmin[]>) => {
+      state.listOrderAdmin = action.payload;
+    },
   },
 });
