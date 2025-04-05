@@ -10,6 +10,7 @@ import Avatar from '../../../components/Avatar.tsx';
 import { NumberFormatterHelper } from '../../../helper/number-format-helper.ts';
 import IconButton from '../../../components/IconButton.tsx';
 import { MdInfo } from 'react-icons/md';
+import Pagination from '../../../components/Pagination.tsx';
 
 export default function AdminOrderListPage() {
   const page = useAdminOrderPage();
@@ -59,7 +60,7 @@ export default function AdminOrderListPage() {
       },
     },
     {
-      component: (e) => {
+      component: () => {
         return (
           <div>
             <IconButton>
@@ -74,6 +75,7 @@ export default function AdminOrderListPage() {
     <PageContainer>
       <PageTitle title={'Management Pesanan'} />
       <Table data={page.dataList} column={tableColumn} loading={page.loading} />
+      {page.paginatedData && <Pagination onPageChange={page.onChangePage} data={page.paginatedData} />}
     </PageContainer>
   );
 }
