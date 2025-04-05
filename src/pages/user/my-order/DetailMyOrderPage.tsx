@@ -5,6 +5,7 @@ import CardLoading from "../../../components/CardLoading";
 import Divider from "../../../components/Divider";
 import PageContainer from "../../../components/PageContainer";
 import { PageTitle } from "../../../components/PageTItle";
+import Stepper from "../../../components/Stepper";
 import UploadBoxCropperArea from "../../../components/UploadBoxCropper";
 import { ORDER_STATUS_ENUM } from "../../../enums/order-status-enum";
 import DateHelper from "../../../helper/date-helper";
@@ -30,6 +31,8 @@ export default function DetailMyOrderPage() {
       label: page.data?.id || "",
     }
   ]
+
+
   return (
     <PageContainer className="my-8">
       <PageTitle breadcrumb={breadcrumb} />
@@ -44,6 +47,11 @@ export default function DetailMyOrderPage() {
                     page.data.status === ORDER_STATUS_ENUM.WAITING_PAYMENT &&
                     <AlertBar description="Silahkan selesaikan pembayaran, setelah itu upload bukti pembayaran untuk mengkonfirmasi pesanan" title="Silahkan selesaikan pembayaran" />
                   }
+                  <Card>
+                    <CardBody>
+                      <Stepper data={["Order Dibuat", "Pembayaran", "Menunggu Konfirmasi", "Pesanan diproses", "selesai"]} activeStepIndex={0} />
+                    </CardBody>
+                  </Card>
                   <div className="flex gap-3">
                     <div className="grid gap-3  w-xl">
                       <Card className="w-full h-fit">
