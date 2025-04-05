@@ -28,7 +28,7 @@ export default function Stepper({ data, activeStepIndex }: IProps) {
         return (
           <li key={index} className={liClasses}>
             <span className={spanClasses}>
-              {index === 0 && isActive ? (
+              {isActive ? (
                 <svg
                   className="w-3.5 h-3.5 sm:w-4 sm:h-4 me-2.5"
                   aria-hidden="true"

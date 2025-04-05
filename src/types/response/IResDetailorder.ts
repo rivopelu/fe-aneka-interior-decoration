@@ -13,7 +13,9 @@ export interface IResDetailOrder {
   total_for_goods_payment: number;
   delivery_address: IResListShippingAddress
   status: ORDER_STATUS_ENUM,
-  products: IResOrderProduct[]
+  products: IResOrderProduct[],
+  payment_image_url: string;
+  reject_reason: string;
 }
 
 

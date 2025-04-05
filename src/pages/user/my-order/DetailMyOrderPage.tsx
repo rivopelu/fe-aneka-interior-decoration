@@ -32,6 +32,16 @@ export default function DetailMyOrderPage() {
     }
   ]
 
+  function checkActiveStep() {
+    switch (page.data?.status) {
+      case ORDER_STATUS_ENUM.WAITING_PAYMENT:
+        return 0
+      case ORDER_STATUS_ENUM.PENDING:
+        return 1
+      default: return 0
+    }
+  }
+
 
   return (
     <PageContainer className="my-8">
@@ -49,7 +59,7 @@ export default function DetailMyOrderPage() {
                   }
                   <Card>
                     <CardBody>
-                      <Stepper data={["Order Dibuat", "Pembayaran", "Menunggu Konfirmasi", "Pesanan diproses", "selesai"]} activeStepIndex={0} />
+                      <Stepper data={["Order Dibuat", "Pembayaran", "Menunggu Konfirmasi", "Pesanan diproses", "selesai"]} activeStepIndex={checkActiveStep()} />
                     </CardBody>
                   </Card>
                   <div className="flex gap-3">
@@ -106,16 +116,31 @@ export default function DetailMyOrderPage() {
                           </div>
                         </CardBody>
                       </Card>
-                      <Card>
-                        <CardBody>
-                          <h1>Upload Bukti pembayaran</h1>
-                        </CardBody>
-                        <Divider />
-                        <CardBody>
-                          <UploadBoxCropperArea value={page.uploadPaymentImageUrl} folderName="payment" onChange={(e) => page.setUploadPaymentImageUrl(e)} />
-                          <Button disable={!page.uploadPaymentImageUrl} fullWidth className="mt-4">KIRIM</Button>
-                        </CardBody>
-                      </Card>
+                      {
+                        page.data.status === ORDER_STATUS_ENUM.WAITING_PAYMENT &&
+                        <Card>
+                          <CardBody>
+                            <h1>Upload Bukti pembayaran</h1>
+                          </CardBody>
+                          <Divider />
+                          <CardBody>
+                            <UploadBoxCropperArea value={page.uploadPaymentImageUrl} folderName="payment" onChange={(e) => page.setUploadPaymentImageUrl(e)} />
+                            <Button loading={page.loadingSubmitImage} onClick={page.onSubmitPayment} disable={!page.uploadPaymentImageUrl} fullWidth className="mt-4">KIRIM</Button>
+                          </CardBody>
+                        </Card>
+                      }
+                      {
+                        page.data.status !== ORDER_STATUS_ENUM.WAITING_PAYMENT &&
+                        <Card>
+                          <CardBody>
+                            <h1>Bukti pembayaran</h1>
+                          </CardBody>
+                          <Divider />
+                          <CardBody className="w-full flex items-center justify-center ">
+                            <img className="h-52 border rounded-md" src={page.data.payment_image_url} alt="bukti pembayaran" />
+                          </CardBody>
+                        </Card>
+                      }
                     </div>
                     <Card className="flex-1 h-fit">
                       <CardBody>
