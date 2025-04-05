@@ -6,6 +6,7 @@ export const ROUTES = {
   CART: () => `/cart`,
   ADDRESS: () => `/address`,
   NEW_ADDRESS: () => `/address/new`,
+  MY_ORDER: () => `/order`,
   ADMIN: {
     DASHBOARD: () => `/admin/dashboard`,
     PRODUCT: () => `/admin/product`,

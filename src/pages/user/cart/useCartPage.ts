@@ -11,6 +11,7 @@ import { AccountActions } from '../../../redux/actions/account.actions.ts';
 import { IResListShippingAddress } from '../../../types/response/IResListShippingAddress.ts';
 import { BaseResponse } from '../../../types/response/IResModel.ts';
 import { IResCheckDeliveryFee } from '../../../types/response/IResCheckDeliveryFee.ts';
+import { IReqCreateOrder } from '../../../types/request/IReqCreateOrder.ts';
 
 export function useCartPage() {
   const dispatch = useAppDispatch();
@@ -31,6 +32,10 @@ export function useCartPage() {
   const [selectedAddress, setSelectedAddress] = useState<IResListShippingAddress | undefined>(undefined);
   const [listDeliveryService, setListDeliveryService] = useState<IResCheckDeliveryFee[] | undefined>(undefined);
   const [selectedDeliveryService, setSelectedDeliveryService] = useState<IResCheckDeliveryFee | undefined>(undefined);
+  const [dataCreateOrder, setDataCreateOrder] = useState<IReqCreateOrder | undefined>();
+  const [openModalCreateOrder, setOpenModalCreateOrder] = useState<boolean>(false);
+  const [loadingCreateOrder, setLoadingCreateOrder] = useState<boolean>(false);
+  const [showModalPayment, setShowModalPayment] = useState<boolean>(false);
 
   useEffect(() => {
     if (listCart.length) {
@@ -39,6 +44,25 @@ export function useCartPage() {
       setTotalPrice(sum);
     }
   }, [listCart]);
+
+  function onSubmitCreateOrder() {
+    if (dataCreateOrder) {
+      setLoadingCreateOrder(true);
+      httpService
+        .POST(ENDPOINT.CREATE_ORDER(), dataCreateOrder)
+        .then(() => {
+          dispatch(cartAction.getCount()).then();
+          setLoadingCreateOrder(false);
+          toast.success('Pesananmu berhasil dibuat');
+          setShowModalPayment(true);
+          setOpenModalCreateOrder(false);
+        })
+        .catch((e) => {
+          errorService.fetchApiError(e);
+          setLoadingCreateOrder(false);
+        });
+    }
+  }
 
   function addCart(productId: string, qty: number) {
     const data: IReqAddToCart = {
@@ -136,8 +160,30 @@ export function useCartPage() {
     }
   }
 
+  function onClickBuyNow() {
+    if (selectedDeliveryService && selectedAddress?.id) {
+      setOpenModalCreateOrder(true);
+      const dataOrder = listCart.map((e) => {
+        return {
+          qty: e.qty,
+          id: e.product_id,
+        };
+      });
+      setDataCreateOrder({
+        delivery_cost: selectedDeliveryService.cost,
+        delivery_service_name: selectedDeliveryService.service_name,
+        delivery_service_description: selectedDeliveryService.description,
+        delivery_service_estimated: selectedDeliveryService.estimated,
+        shipping_address_id: selectedAddress.id,
+        products: dataOrder,
+      });
+    }
+  }
+
   return {
     countCart,
+    openModalCreateOrder,
+    setOpenModalCreateOrder,
     listCart,
     onAddQty,
     onReduceQty,
@@ -154,5 +200,10 @@ export function useCartPage() {
     setListDeliveryService,
     setSelectedDeliveryService,
     selectedDeliveryService,
+    onSubmitCreateOrder,
+    onClickBuyNow,
+    loadingCreateOrder,
+    showModalPayment,
+    setShowModalPayment,
   };
 }

@@ -11,6 +11,7 @@ import detailProductPage from '../pages/user/detail-product/DetailProductPage.ts
 import CartPage from '../pages/user/cart/CartPage.tsx';
 import AddressPage from '../pages/user/address/AddressPage.tsx';
 import NewAddressPage from '../pages/user/address/newAddressPage.tsx';
+import { MyOrderPage } from '../pages/user/my-order/MyOrderPage.tsx';
 
 export const RouteList: IRouteList[] = [
   {
@@ -36,6 +37,11 @@ export const RouteList: IRouteList[] = [
 ];
 
 export const userRouteList: IRouteList[] = [
+  {
+    route: ROUTES.MY_ORDER(),
+    type: PAGE_TYPE_ENUM.PRIMARY,
+    elements: MyOrderPage,
+  },
   {
     route: ROUTES.CART(),
     type: PAGE_TYPE_ENUM.PRIMARY,

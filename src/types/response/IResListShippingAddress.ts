@@ -1,4 +1,5 @@
 export interface IResListShippingAddress {
+  id: string;
   destination_code: string;
   city: string;
   subdistrict: string;

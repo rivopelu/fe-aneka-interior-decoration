@@ -7,7 +7,7 @@ import { ROUTES } from '../routes/routes.ts';
 import Dropdown from './Dropdown.tsx';
 import Avatar from './Avatar.tsx';
 import { ListGroup, ListItem } from './List.tsx';
-import { MdDashboard, MdLocalShipping, MdLogout, MdShoppingBag } from 'react-icons/md';
+import { MdDashboard, MdLocalShipping, MdLogout, MdShop, MdShoppingBag } from 'react-icons/md';
 import { ACCOUNT_ROLE_ENUM } from '../enums/account-role-enum.ts';
 import IconButton from './IconButton.tsx';
 import Tooltip from './Tooltip.tsx';
@@ -60,6 +60,9 @@ export default function TopBar() {
                     )}
                     <Link to={ROUTES.ADDRESS()}>
                       <ListItem label={'Alamat'} icon={<MdLocalShipping />} />
+                    </Link>
+                    <Link to={ROUTES.MY_ORDER()}>
+                      <ListItem label={'Pesanan'} icon={<MdShop />} />
                     </Link>
                     <ListItem onClick={auth.logOut} className={'text-red-600'} label={'Logout'} icon={<MdLogout />} />
                   </ListGroup>

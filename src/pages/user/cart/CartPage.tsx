@@ -14,6 +14,8 @@ import { ROUTES } from '../../../routes/routes.ts';
 import PopupModal from '../../../components/PopupModal.tsx';
 import { checkDeliveryImage } from '../../../utils/check-delivery-image.ts';
 import AlertBar from '../../../components/AlertBar.tsx';
+import PopupQuestion from '../../../components/PopupQuestion.tsx';
+import { useNavigate } from 'react-router-dom';
 
 export default function CartPage() {
   const page = useCartPage();
@@ -69,8 +71,46 @@ export default function CartPage() {
     );
   }
 
+  function componentModalPayment() {
+    return (
+      <Card>
+        <CardBody className={'text-center flex flex-col items-center justify-center gap-3'}>
+          <div className={'text-2xl font-semibold'}>Pesanan Kamu berhasil dibuat</div>
+          <p>Silahkan tranfer ke rekening di bawah ini dan upload bukti pembayaran di detail pesanan</p>
+          <p className={'text-2xl text-primary-dark'}>080808080</p>
+          <p>
+            Bank BCA, An <strong>Nama penerima</strong>
+          </p>
+          <p>
+            Jumlah yang haru dibayuar{' '}
+            <strong>{numberFormat.toRupiah(page.totalPrice + (page?.selectedDeliveryService?.cost || 0))}</strong>
+          </p>
+          <Button fullWidth className={'mt-4'} onClick={() => navigate(ROUTES.MY_ORDER())}>
+            Lihat Pesanan
+          </Button>
+        </CardBody>
+      </Card>
+    );
+  }
+
+  const navigate = useNavigate();
   return (
     <PageContainer className={'mt-8'}>
+      <PopupModal
+        component={componentModalPayment()}
+        open={page.showModalPayment}
+        onClose={() => {
+          page.setShowModalPayment(false);
+          navigate(ROUTES.MY_ORDER());
+        }}
+      />
+      <PopupQuestion
+        loading={page.loadingCreateOrder}
+        onSubmit={page.onSubmitCreateOrder}
+        title={'Buat order sekarang ? '}
+        open={page.openModalCreateOrder}
+        onClose={() => page.setOpenModalCreateOrder(false)}
+      />
       <PopupModal
         onClose={() => {
           page.setSelectedDeliveryService(undefined);
@@ -86,7 +126,7 @@ export default function CartPage() {
         <div className={'flex gap-2 relative'}>
           <div className={'flex-1 grid gap-2'}>
             {page.listCart.map((item) => (
-              <Card className={''} key={item.cart_id}>
+              <Card className={'h-fit'} key={item.cart_id}>
                 <CardBody>
                   <div className={'flex gap-3'}>
                     <img src={item.image} alt={item.name} className={'h-32 aspect-square object-cover'} />
@@ -151,7 +191,7 @@ export default function CartPage() {
                 )}
                 <div className={'grid gap-3'}>
                   {!page.selectedDeliveryService && <AlertBar title={'Silahkan pilih jasa pengiriman'} />}
-                  <Button disable={!page.selectedDeliveryService} fullWidth>
+                  <Button disable={!page.selectedDeliveryService} fullWidth onClick={page.onClickBuyNow}>
                     BELI
                   </Button>
                 </div>
@@ -171,9 +211,8 @@ export default function CartPage() {
                   ) : (
                     <div className={'grid gap-3'}>
                       {page.listAddress.map((item, i) => (
-                        <div onClick={() => page.setSelectedAddress(item)}>
+                        <div key={i} onClick={() => page.setSelectedAddress(item)}>
                           <Card
-                            key={i}
                             className={twMerge(
                               'hover:border-primary-200 cursor-pointer  duration-200 active:bg-primary-50',
                               page.selectedAddress?.destination_code === item.destination_code &&
