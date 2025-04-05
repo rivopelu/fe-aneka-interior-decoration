@@ -20,4 +20,6 @@ export const ENDPOINT = {
   UPLOAD_PAYMENT_IMAGE: (id: string) => `/order/v1/upload-payment-image/${id}`,
   GET_LIST_ORDER_ADMIN: () => `/order/v1/admin/list`,
   APPROVE_REJECT_ORDER: (id: string) => `/order/v1/admin/approve-reject/${id}`,
+  INPUT_RESI: (id: string) => `/order/v1/admin/input-resi/${id}`,
+  CONFIRM_ORDER: (id: string) => `/order/v1/user/confirm/${id}`,
 };

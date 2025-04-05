@@ -19,11 +19,43 @@ import Button from '../../../components/Button.tsx';
 import Grid from '../../../components/Grid.tsx';
 import AlertBar from '../../../components/AlertBar.tsx';
 import { checkActiveStepOrder } from '../../../utils/check-stepper-order.ts';
+import InputText from '../../../components/InputText.tsx';
 
 export default function AdminDetailOrderPage() {
   const page = useAdminDetailOrderPage();
   const dateHelper = new DateHelper();
   const numberFormat = new NumberFormatterHelper();
+
+  function componentModalInputResi() {
+    return (
+      <Card className={'w-md'}>
+        <CardBody>
+          <div className={'flex items-center justify-between'}>
+            <CardTitle title={'Input resi pengiriman'} />
+            <IconButton onClick={() => page.setShowModalResi(false)}>
+              <MdClose />
+            </IconButton>
+          </div>
+        </CardBody>
+        <CardBody>
+          <FormikProvider value={page.formikResi}>
+            <InputText id={'resi'} name={'resi'} label={'Resi pengiriman'} placeholder={'Masukan resi pengiriman'} />
+          </FormikProvider>
+        </CardBody>
+        <Divider />
+        <CardBody>
+          <Button
+            loading={page.loadingInputResi}
+            onClick={() => page.formikResi.handleSubmit()}
+            disable={!page.formikResi.values.resi}
+            fullWidth
+          >
+            KIRIM
+          </Button>
+        </CardBody>
+      </Card>
+    );
+  }
 
   function componentRejectModal() {
     return (
@@ -59,6 +91,11 @@ export default function AdminDetailOrderPage() {
   return (
     <PageContainer>
       <PopupModal onClose={page.onCloseModalReject} component={componentRejectModal()} open={page.showModalReject} />
+      <PopupModal
+        onClose={() => page.setShowModalResi(false)}
+        component={componentModalInputResi()}
+        open={page.showModalResi}
+      />
       <div className={'flex items-center justify-between'}>
         <PageTitle title={'Detail Pesanan'} />
         {page?.data?.status && (
@@ -140,8 +177,24 @@ export default function AdminDetailOrderPage() {
                           <p className=" text-gray-500">Total Biaya pesanan</p>
                           <p className="font-semibold">{numberFormat.toRupiah(page.data.total_payment)}</p>
                         </div>
+                        {page.data.status === ORDER_STATUS_ENUM.ON_DELIVERY && (
+                          <div className="flex justify-between">
+                            <p className=" text-gray-500">Resi Pengiriman</p>
+                            <p className="font-semibold">{page.data.delivery_code}</p>
+                          </div>
+                        )}
                       </div>
                     </CardBody>
+                    {page.data.status === ORDER_STATUS_ENUM.IN_PROGRESS && (
+                      <>
+                        <Divider />
+                        <CardBody>
+                          <Button onClick={() => page.setShowModalResi(true)} fullWidth>
+                            Input resi pengiriman
+                          </Button>
+                        </CardBody>
+                      </>
+                    )}
                   </Card>
                   <Card>
                     <CardBody>

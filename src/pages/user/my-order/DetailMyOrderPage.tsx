@@ -14,6 +14,7 @@ import { ROUTES } from '../../../routes/routes';
 import { IBreadcrumbData } from '../../../types/type/IBreadcrumbData';
 import { useDetailMyOrderPage } from './useDetailMyOrderPage';
 import { checkActiveStepOrder } from '../../../utils/check-stepper-order.ts';
+import OrderStatusText from '../../../components/OrderStatusText.tsx';
 
 export default function DetailMyOrderPage() {
   const page = useDetailMyOrderPage();
@@ -35,7 +36,18 @@ export default function DetailMyOrderPage() {
 
   return (
     <PageContainer className="my-8">
-      <PageTitle breadcrumb={breadcrumb} />
+      <div className={'flex items-center justify-between'}>
+        <PageTitle breadcrumb={breadcrumb} />
+        {page?.data && page.data.status === ORDER_STATUS_ENUM.ON_DELIVERY ? (
+          <div>
+            <Button loading={page.loadingConfirm} onClick={page.onConfirmOrder}>
+              Konfirmasi Pesanan
+            </Button>
+          </div>
+        ) : (
+          <OrderStatusText status={page?.data?.status} />
+        )}
+      </div>
       <div>
         {page.loading ? (
           <CardLoading />
@@ -103,6 +115,12 @@ export default function DetailMyOrderPage() {
                             <p className=" text-gray-500">Total Biaya pesanan</p>
                             <p className="font-semibold">{numberFormat.toRupiah(page.data.total_payment)}</p>
                           </div>
+                          {page.data.status === ORDER_STATUS_ENUM.ON_DELIVERY && (
+                            <div className="flex justify-between">
+                              <p className=" text-gray-500">Resi Pengiriman</p>
+                              <p className="font-semibold">{page.data.delivery_code}</p>
+                            </div>
+                          )}
                         </div>
                       </CardBody>
                     </Card>

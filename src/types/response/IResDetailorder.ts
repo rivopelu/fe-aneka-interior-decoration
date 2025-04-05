@@ -20,6 +20,7 @@ export interface IResDetailOrder {
   account_name: string;
   account_profile_picture: string;
   account_email: string;
+  delivery_code: string;
 }
 
 export interface IResOrderProduct extends IResListProduct {

@@ -10,6 +10,7 @@ import { HttpService } from '../../../services/http.service.ts';
 import ErrorService from '../../../services/error.service.ts';
 import { ENDPOINT } from '../../../constants/endpoint.ts';
 import toast from 'react-hot-toast';
+import { IReqInputResi } from '../../../types/request/IReqInputResi.ts';
 
 export function useAdminDetailOrderPage() {
   const dispatch = useAppDispatch();
@@ -27,8 +28,37 @@ export function useAdminDetailOrderPage() {
 
   const [showModalReject, setShowModalReject] = useState(false);
   const [loadingApproveReject, setLoadingApproveReject] = useState(false);
+  const [showModalResi, setShowModalResi] = useState(false);
+  const [loadingInputResi, setLoadingInputResi] = useState(false);
+
   const validationSchema = Yup.object().shape({
     reason: Yup.string().required('Required'),
+  });
+
+  const initStateResi: IReqInputResi = {
+    resi: '',
+  };
+
+  const formikResi = useFormik({
+    initialValues: initStateResi,
+    onSubmit: (e) => {
+      if (id) {
+        setLoadingInputResi(true);
+        httpService
+          .PUT(ENDPOINT.INPUT_RESI(id), e)
+          .then(() => {
+            setLoadingInputResi(false);
+            setShowModalResi(false);
+            formikResi.setValues(initStateResi);
+            toast.success('Resi pengiriman berhasil dikirm');
+            fetchData();
+          })
+          .catch((e) => {
+            setLoadingInputResi(false);
+            errorService.fetchApiError(e);
+          });
+      }
+    },
   });
 
   const formikReject = useFormik({
@@ -92,5 +122,9 @@ export function useAdminDetailOrderPage() {
     onCloseModalReject,
     loadingApproveReject,
     onApproveOrder,
+    formikResi,
+    showModalResi,
+    setShowModalResi,
+    loadingInputResi,
   };
 }
