@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from '../../../redux/store.ts';
 import { OrderActions } from '../../../redux/actions/order.actions.ts';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { IPaginatedChange } from '../../../types/type/IPaginatedChange.ts';
 
 export function useAdminOrderPage() {
@@ -10,6 +10,11 @@ export function useAdminOrderPage() {
   const dataList = Order.listOrderAdmin?.data || [];
   const loading = Order.listOrderAdmin?.loading;
   const paginatedData = Order.listOrderAdmin?.paginated_data;
+
+  const [searchValue, setSearchValue] = useState<string>('');
+  const [activeSearch, setActiveSearch] = useState<boolean>(false);
+  const [page] = useState<number>(0);
+  const [size] = useState<number>(10);
 
   function fetchData(page: number, size: number, id?: string) {
     let queryString = `?page=${page}&size=${size}`;
@@ -26,5 +31,27 @@ export function useAdminOrderPage() {
   function onChangePage(e: IPaginatedChange) {
     fetchData(e.page, e.size);
   }
-  return { dataList, loading, paginatedData, onChangePage };
+  function onSearch(e: string) {
+    fetchData(page, size, e);
+    setActiveSearch(true);
+  }
+
+  function onResetSearch() {
+    fetchData(page, size);
+    setSearchValue('');
+    setActiveSearch(false);
+  }
+
+  return {
+    dataList,
+    loading,
+    paginatedData,
+    onChangePage,
+    searchValue,
+    setSearchValue,
+    activeSearch,
+    setActiveSearch,
+    onSearch,
+    onResetSearch,
+  };
 }

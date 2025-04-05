@@ -11,6 +11,7 @@ import { NumberFormatterHelper } from '../../../helper/number-format-helper.ts';
 import IconButton from '../../../components/IconButton.tsx';
 import { MdInfo } from 'react-icons/md';
 import Pagination from '../../../components/Pagination.tsx';
+import { InputSearch } from '../../../components/InputSearch.tsx';
 
 export default function AdminOrderListPage() {
   const page = useAdminOrderPage();
@@ -74,6 +75,16 @@ export default function AdminOrderListPage() {
   return (
     <PageContainer>
       <PageTitle title={'Management Pesanan'} />
+      <div className="grid grid-cols-2">
+        <InputSearch
+          active={page.activeSearch}
+          value={page.searchValue}
+          onChange={page.setSearchValue}
+          onEnter={page.onSearch}
+          onReset={page.onResetSearch}
+          placeholder="Cari Id Pesanan"
+        />
+      </div>
       <Table data={page.dataList} column={tableColumn} loading={page.loading} />
       {page.paginatedData && <Pagination onPageChange={page.onChangePage} data={page.paginatedData} />}
     </PageContainer>
