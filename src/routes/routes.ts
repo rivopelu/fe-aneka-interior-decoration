@@ -13,5 +13,6 @@ export const ROUTES = {
     PRODUCT: () => `/admin/product`,
     NEW_PRODUCT: () => `/admin/product/new`,
     ORDER: () => `/admin/order`,
+    DETAIL_ORDER: (id: string) => `/admin/order/${id}`,
   },
 };

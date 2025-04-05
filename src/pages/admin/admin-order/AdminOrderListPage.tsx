@@ -12,6 +12,8 @@ import IconButton from '../../../components/IconButton.tsx';
 import { MdInfo } from 'react-icons/md';
 import Pagination from '../../../components/Pagination.tsx';
 import { InputSearch } from '../../../components/InputSearch.tsx';
+import { Link } from 'react-router-dom';
+import { ROUTES } from '../../../routes/routes.ts';
 
 export default function AdminOrderListPage() {
   const page = useAdminOrderPage();
@@ -61,13 +63,13 @@ export default function AdminOrderListPage() {
       },
     },
     {
-      component: () => {
+      component: (e) => {
         return (
-          <div>
+          <Link to={ROUTES.ADMIN.DETAIL_ORDER(e.id)}>
             <IconButton>
               <MdInfo />
             </IconButton>
-          </div>
+          </Link>
         );
       },
     },
