@@ -1,15 +1,43 @@
 import { useAppDispatch, useAppSelector } from '../../../redux/store.ts';
 import { useParams } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { OrderActions } from '../../../redux/actions/order.actions.ts';
+import { IReqApproveRejectOrder } from '../../../types/request/IReqApproveRejectOrder.ts';
+import { APPROVE_REJECT_ENUM } from '../../../enums/approve-reject-enum.ts';
+import * as Yup from 'yup';
+import { useFormik } from 'formik';
+import { HttpService } from '../../../services/http.service.ts';
+import ErrorService from '../../../services/error.service.ts';
+import { ENDPOINT } from '../../../constants/endpoint.ts';
+import toast from 'react-hot-toast';
 
 export function useAdminDetailOrderPage() {
   const dispatch = useAppDispatch();
   const { id } = useParams();
   const orderAction = new OrderActions();
   const Order = useAppSelector((state) => state.Order);
+  const httpService = new HttpService();
+  const errorService = new ErrorService();
   const data = Order?.detailOrder?.data;
   const loading = Order?.detailOrder?.loading;
+  const initValueReject: IReqApproveRejectOrder = {
+    reason: '',
+    type: APPROVE_REJECT_ENUM.REJECT,
+  };
+
+  const [showModalReject, setShowModalReject] = useState(false);
+  const [loadingApproveReject, setLoadingApproveReject] = useState(false);
+  const validationSchema = Yup.object().shape({
+    reason: Yup.string().required('Required'),
+  });
+
+  const formikReject = useFormik({
+    initialValues: initValueReject,
+    validationSchema: validationSchema,
+    onSubmit: (e) => {
+      alert(JSON.stringify(e));
+    },
+  });
   useEffect(() => {
     fetchData();
   }, []);
@@ -18,5 +46,51 @@ export function useAdminDetailOrderPage() {
       dispatch(orderAction.getDetailOrder(id));
     }
   }
-  return { data, loading };
+
+  function onCloseModalReject() {
+    setShowModalReject(false);
+    formikReject.setFieldValue('reason', '');
+  }
+
+  function onSubmitApproveReject(data: IReqApproveRejectOrder) {
+    if (id) {
+      setLoadingApproveReject(true);
+      httpService
+        .PUT(ENDPOINT.APPROVE_REJECT_ORDER(id), data)
+        .then(() => {
+          if (data.type === APPROVE_REJECT_ENUM.REJECT) {
+            toast.success('Pesanan berhasil ditolak');
+          } else if (data.type === APPROVE_REJECT_ENUM.APPROVE) {
+            toast.success('Pesanan berhasil diterima');
+          }
+          setLoadingApproveReject(false);
+          setShowModalReject(false);
+          fetchData();
+        })
+        .catch((e) => {
+          setLoadingApproveReject(false);
+          errorService.fetchApiError(e);
+        });
+    }
+  }
+
+  function onApproveOrder() {
+    const data: IReqApproveRejectOrder = {
+      reason: '',
+      type: APPROVE_REJECT_ENUM.APPROVE,
+    };
+
+    onSubmitApproveReject(data);
+  }
+
+  return {
+    data,
+    formikReject,
+    loading,
+    setShowModalReject,
+    showModalReject,
+    onCloseModalReject,
+    loadingApproveReject,
+    onApproveOrder,
+  };
 }

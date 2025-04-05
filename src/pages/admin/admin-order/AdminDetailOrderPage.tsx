@@ -3,13 +3,20 @@ import { useAdminDetailOrderPage } from './useAdminDetailOrderPage.ts';
 import CardLoading from '../../../components/CardLoading.tsx';
 import { PageTitle } from '../../../components/PageTItle.tsx';
 import { ORDER_STATUS_ENUM } from '../../../enums/order-status-enum.ts';
-import { Card, CardBody } from '../../../components/Card.tsx';
+import { Card, CardBody, CardTitle } from '../../../components/Card.tsx';
 import Stepper from '../../../components/Stepper.tsx';
 import OrderStatusText from '../../../components/OrderStatusText.tsx';
 import DateHelper from '../../../helper/date-helper.ts';
 import { NumberFormatterHelper } from '../../../helper/number-format-helper.ts';
 import Divider from '../../../components/Divider.tsx';
 import Avatar from '../../../components/Avatar.tsx';
+import PopupModal from '../../../components/PopupModal.tsx';
+import { FormikProvider } from 'formik';
+import InputTextArea from '../../../components/InputTextarea.tsx';
+import IconButton from '../../../components/IconButton.tsx';
+import { MdClose } from 'react-icons/md';
+import Button from '../../../components/Button.tsx';
+import Grid from '../../../components/Grid.tsx';
 
 export default function AdminDetailOrderPage() {
   const page = useAdminDetailOrderPage();
@@ -21,12 +28,47 @@ export default function AdminDetailOrderPage() {
         return 0;
       case ORDER_STATUS_ENUM.PENDING:
         return 1;
+      case ORDER_STATUS_ENUM.IN_PROGRESS:
+        return 2;
       default:
         return 0;
     }
   }
+
+  function componentRejectModal() {
+    return (
+      <Card className={'w-md'}>
+        <CardBody>
+          <div className={'flex items-center justify-between'}>
+            <CardTitle title={'Tolak Pesanan'} />
+            <IconButton onClick={page.onCloseModalReject}>
+              <MdClose />
+            </IconButton>
+          </div>
+        </CardBody>
+        <Divider />
+        <CardBody>
+          <FormikProvider value={page.formikReject}>
+            <InputTextArea
+              id={'reason'}
+              name={'reason'}
+              label={'Alasan penolakan'}
+              placeholder={'Masukan alasan untuk menolak pesanan'}
+            />
+          </FormikProvider>
+        </CardBody>
+        <Divider />
+        <CardBody>
+          <Button loading={page.loadingApproveReject} onClick={() => page.formikReject.handleSubmit()} fullWidth>
+            KIRIM
+          </Button>
+        </CardBody>
+      </Card>
+    );
+  }
   return (
     <PageContainer>
+      <PopupModal onClose={page.onCloseModalReject} component={componentRejectModal()} open={page.showModalReject} />
       <div className={'flex items-center justify-between'}>
         <PageTitle title={'Detail Pesanan'} />
         {page?.data?.status && (
@@ -44,7 +86,14 @@ export default function AdminDetailOrderPage() {
               <Card>
                 <CardBody>
                   <Stepper
-                    data={['Order Dibuat', 'Pembayaran', 'Menunggu Konfirmasi', 'Pesanan diproses', 'selesai']}
+                    data={[
+                      'Order Dibuat',
+                      'Pembayaran',
+                      'Menunggu Konfirmasi',
+                      'Pesanan diproses',
+                      'Dalam Pengiriman',
+                      'selesai',
+                    ]}
                     activeStepIndex={checkActiveStep()}
                   />
                 </CardBody>
@@ -129,6 +178,27 @@ export default function AdminDetailOrderPage() {
                           alt="bukti pembayaran"
                         />
                       </CardBody>
+                      <>
+                        {page.data.status === ORDER_STATUS_ENUM.PENDING && (
+                          <>
+                            <Divider />
+                            <CardBody>
+                              <Grid grid={2}>
+                                <Button onClick={() => page.setShowModalReject(true)} color={'error'}>
+                                  Tolak
+                                </Button>
+                                <Button
+                                  onClick={page.onApproveOrder}
+                                  loading={page.loadingApproveReject}
+                                  color={'info'}
+                                >
+                                  Terima
+                                </Button>
+                              </Grid>
+                            </CardBody>
+                          </>
+                        )}
+                      </>
                     </Card>
                   )}
                 </div>
