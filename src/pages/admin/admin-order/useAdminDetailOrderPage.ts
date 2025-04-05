@@ -35,7 +35,7 @@ export function useAdminDetailOrderPage() {
     initialValues: initValueReject,
     validationSchema: validationSchema,
     onSubmit: (e) => {
-      alert(JSON.stringify(e));
+      onSubmitApproveReject(e);
     },
   });
   useEffect(() => {
