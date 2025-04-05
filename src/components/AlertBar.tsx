@@ -1,6 +1,6 @@
 export default function AlertBar(props: IProps) {
   return (
-    <div className={'bg-white'}>
+    <div className={''}>
       <div
         className="flex items-center p-4 mb-4 text-sm border border-blue-200 text-blue-800 rounded-lg bg-blue-50  "
         role="alert"
@@ -15,7 +15,12 @@ export default function AlertBar(props: IProps) {
           <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
         </svg>
         <span className="sr-only">Info</span>
-        <div>{props.title}</div>
+        <div>
+          <div>{props.title}</div>
+          {
+            props.description && <p className="text-xs">{props.description}</p>
+          }
+        </div>
       </div>
     </div>
   );
@@ -23,4 +28,5 @@ export default function AlertBar(props: IProps) {
 
 interface IProps {
   title: string;
+  description?: string
 }

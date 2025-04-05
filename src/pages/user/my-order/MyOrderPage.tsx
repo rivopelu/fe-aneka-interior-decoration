@@ -10,6 +10,8 @@ import { NumberFormatterHelper } from '../../../helper/number-format-helper.ts';
 import IconButton from '../../../components/IconButton.tsx';
 import { MdInfo } from 'react-icons/md';
 import OrderStatusText from '../../../components/OrderStatusText.tsx';
+import { Link } from 'react-router-dom';
+import { ROUTES } from '../../../routes/routes.ts';
 
 export function MyOrderPage() {
   const dispatch = useAppDispatch();
@@ -51,9 +53,11 @@ export function MyOrderPage() {
                       </div>
                     </div>
                     <div className={'pr-10'}>
-                      <IconButton>
-                        <MdInfo className={'text-primary-main'} />
-                      </IconButton>
+                      <Link to={ROUTES.DETAIL_MY_ORDER(item.id)}>
+                        <IconButton>
+                          <MdInfo className={'text-primary-main'} />
+                        </IconButton>
+                      </Link>
                     </div>
                   </div>
                 </CardBody>

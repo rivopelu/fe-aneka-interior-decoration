@@ -16,4 +16,5 @@ export const ENDPOINT = {
   CHECK_DELIVERY_FEE: (code: string) => `/order/v1/check-delivery-fee?code=${code}`,
   CREATE_ORDER: () => `/order/v1/create`,
   LIST_ORDER_USER: () => `/order/v1/user/list`,
+  DETAIL_ORDER: (id: string) => `/order/v1/detail/${id}`
 };

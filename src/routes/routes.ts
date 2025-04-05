@@ -7,6 +7,7 @@ export const ROUTES = {
   ADDRESS: () => `/address`,
   NEW_ADDRESS: () => `/address/new`,
   MY_ORDER: () => `/order`,
+  DETAIL_MY_ORDER: (id: string) => `/order/${id}`,
   ADMIN: {
     DASHBOARD: () => `/admin/dashboard`,
     PRODUCT: () => `/admin/product`,
