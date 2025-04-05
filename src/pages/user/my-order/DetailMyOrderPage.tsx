@@ -1,9 +1,12 @@
 import AlertBar from "../../../components/AlertBar";
+import Button from "../../../components/Button";
 import { Card, CardBody } from "../../../components/Card";
 import CardLoading from "../../../components/CardLoading";
 import Divider from "../../../components/Divider";
 import PageContainer from "../../../components/PageContainer";
 import { PageTitle } from "../../../components/PageTItle";
+import UploadBoxCropperArea from "../../../components/UploadBoxCropper";
+import { ORDER_STATUS_ENUM } from "../../../enums/order-status-enum";
 import DateHelper from "../../../helper/date-helper";
 import { NumberFormatterHelper } from "../../../helper/number-format-helper";
 import { ROUTES } from "../../../routes/routes";
@@ -37,7 +40,10 @@ export default function DetailMyOrderPage() {
               {
                 page.data &&
                 <div className="grid gap-5">
-                  <AlertBar description="Silahkan selesaikan pembayaran, setelah itu upload bukti pembayaran untuk mengkonfirmasi pesanan" title="Silahkan selesaikan pembayaran" />
+                  {
+                    page.data.status === ORDER_STATUS_ENUM.WAITING_PAYMENT &&
+                    <AlertBar description="Silahkan selesaikan pembayaran, setelah itu upload bukti pembayaran untuk mengkonfirmasi pesanan" title="Silahkan selesaikan pembayaran" />
+                  }
                   <div className="flex gap-3">
                     <div className="grid gap-3  w-xl">
                       <Card className="w-full h-fit">
@@ -90,6 +96,16 @@ export default function DetailMyOrderPage() {
                             </div>
 
                           </div>
+                        </CardBody>
+                      </Card>
+                      <Card>
+                        <CardBody>
+                          <h1>Upload Bukti pembayaran</h1>
+                        </CardBody>
+                        <Divider />
+                        <CardBody>
+                          <UploadBoxCropperArea value={page.uploadPaymentImageUrl} folderName="payment" onChange={(e) => page.setUploadPaymentImageUrl(e)} />
+                          <Button disable={!page.uploadPaymentImageUrl} fullWidth className="mt-4">KIRIM</Button>
                         </CardBody>
                       </Card>
                     </div>
