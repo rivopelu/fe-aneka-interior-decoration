@@ -63,7 +63,7 @@ export default function detailProductPage() {
                             quantity={page.qty}
                           />
                         </div>
-                        <div>
+                        <div className={'flex items-center gap-3'}>
                           <Button
                             loading={page.loadingAdd}
                             onClick={page.onAddToCart}
@@ -73,6 +73,15 @@ export default function detailProductPage() {
                             variant="outlined"
                           >
                             Tambahkan ke keranjang
+                          </Button>
+                          <Button
+                            loading={page.loadingAdd}
+                            onClick={page.onBuy}
+                            disable={page.qty === 0}
+                            className="rounded-none"
+                            variant="outlined"
+                          >
+                            Beli langsung
                           </Button>
                         </div>
                       </div>

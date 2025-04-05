@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ProductAction } from '../../../redux/actions/product.action.ts';
 import { useAppDispatch, useAppSelector } from '../../../redux/store.ts';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { IResListProduct } from '../../../types/response/IResListProduct.ts';
 import { CartAction } from '../../../redux/actions/cart.action.ts';
 import { IReqAddToCart } from '../../../types/request/IReqAddToCart.ts';
@@ -9,12 +9,14 @@ import { HttpService } from '../../../services/http.service.ts';
 import { ENDPOINT } from '../../../constants/endpoint.ts';
 import ErrorService from '../../../services/error.service.ts';
 import toast from 'react-hot-toast';
+import { ROUTES } from '../../../routes/routes.ts';
 
 export function useDetailProductPage() {
   const dispatch = useAppDispatch();
   const productAction = new ProductAction();
   const cartAction = new CartAction();
   const errorService = new ErrorService();
+  const navigate = useNavigate();
   const httpService = new HttpService();
   const Product = useAppSelector((state) => state.Product);
   const data = Product.detailProduct?.data;
@@ -65,5 +67,27 @@ export function useDetailProductPage() {
       });
   }
 
-  return { data, loading, qty, setQty, listProduct, onAddToCart, loadingAdd };
+  function onBuy() {
+    if (!data?.id) return;
+    const reqData: IReqAddToCart = {
+      qty: qty,
+      id: data.id,
+    };
+    setLoadingAdd(true);
+    httpService
+      .POST<IReqAddToCart>(ENDPOINT.ADD_TO_CART(), reqData)
+      .then(() => {
+        setLoadingAdd(false);
+        dispatch(cartAction.getCount()).then();
+        navigate(ROUTES.CART());
+        toast.success('Silahkan pilih pengiriman');
+      })
+      .catch((e) => {
+        setLoadingAdd(false);
+
+        errorService.fetchApiError(e);
+      });
+  }
+
+  return { data, loading, qty, setQty, listProduct, onAddToCart, loadingAdd, onBuy };
 }
