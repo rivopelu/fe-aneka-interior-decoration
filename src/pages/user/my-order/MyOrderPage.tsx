@@ -9,6 +9,7 @@ import DateHelper from '../../../helper/date-helper.ts';
 import { NumberFormatterHelper } from '../../../helper/number-format-helper.ts';
 import IconButton from '../../../components/IconButton.tsx';
 import { MdInfo } from 'react-icons/md';
+import OrderStatusText from '../../../components/OrderStatusText.tsx';
 
 export function MyOrderPage() {
   const dispatch = useAppDispatch();
@@ -35,7 +36,7 @@ export function MyOrderPage() {
                   <div className={'flex justify-between items-center'}>
                     <div className={'grid grid-cols-3 flex-1'}>
                       <div>
-                        <div className={'font-semibold'}>{item.status}</div>
+                        <OrderStatusText status={item.status} />
                         <div className={'text-gray-500'}>{item.id}</div>
                       </div>
                       <div>
