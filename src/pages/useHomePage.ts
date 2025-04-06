@@ -1,54 +1,50 @@
-import { useEffect, useState } from "react"
-import { ProductAction } from "../redux/actions/product.action"
-import { IProductReducers } from "../redux/reducers/product.reducers"
-import { useAppDispatch, useAppSelector } from "../redux/store"
-import { IResListProduct } from "../types/response/IResListProduct"
+import { useEffect, useState } from 'react';
+import { ProductAction } from '../redux/actions/product.action';
+import { IProductReducers } from '../redux/reducers/product.reducers';
+import { useAppDispatch, useAppSelector } from '../redux/store';
+import { IResListProduct } from '../types/response/IResListProduct';
 
 export function useHomePage() {
-  const dispatch = useAppDispatch()
-  const productActions = new ProductAction()
-  const Product: IProductReducers = useAppSelector(state => state.Product)
-  const loading = Product.listProduct?.loading
+  const dispatch = useAppDispatch();
+  const productActions = new ProductAction();
+  const Product: IProductReducers = useAppSelector((state) => state.Product);
+  const loading = Product.listProduct?.loading;
 
-  const [listData, setListData] = useState<IResListProduct[]>([])
-  const [page, setPage] = useState<number>(1)
-  const [size] = useState<number>(10)
-
-
+  const [listData, setListData] = useState<IResListProduct[]>([]);
+  const [page, setPage] = useState<number>(0);
+  const [size] = useState<number>(10);
 
   function fetchData(page: number, size: number) {
-    const queryString = `?page=${page}&size=${size}`
-    dispatch(productActions.listProduct(queryString))
+    const queryString = `?page=${page}&size=${size}`;
+    dispatch(productActions.listProduct(queryString));
   }
 
-
-
   useEffect(() => {
-    const data = Product.listProduct?.data
-    if (!data) return
+    const data = Product?.listProduct?.data;
+
+    if (!Array.isArray(data)) return;
 
     setListData((prevListData) => {
-      const newList = [...prevListData]
+      const newList = [...prevListData];
 
-      data.forEach(item => {
-        if (!newList.some(existingItem => existingItem.id === item.id)) {
-          newList.push(item)
+      data.forEach((item) => {
+        if (!newList.some((existingItem) => existingItem.id === item.id)) {
+          newList.push(item);
         }
-      })
+      });
 
-      return newList
-    })
-  }, [Product?.listProduct?.data])
-
+      return newList;
+    });
+  }, [Product?.listProduct]);
   useEffect(() => {
-    fetchData(page, size)
-  }, [])
+    fetchData(page, size);
+  }, []);
 
   function loadMore() {
-    const nextPage = page + 1
-    setPage(nextPage)
-    fetchData(nextPage, size)
+    const nextPage = page + 1;
+    setPage(nextPage);
+    fetchData(nextPage, size);
   }
 
-  return { listData, loadMore, loading }
+  return { listData, loadMore, loading };
 }

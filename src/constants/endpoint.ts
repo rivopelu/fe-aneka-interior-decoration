@@ -22,4 +22,5 @@ export const ENDPOINT = {
   APPROVE_REJECT_ORDER: (id: string) => `/order/v1/admin/approve-reject/${id}`,
   INPUT_RESI: (id: string) => `/order/v1/admin/input-resi/${id}`,
   CONFIRM_ORDER: (id: string) => `/order/v1/user/confirm/${id}`,
+  LIST_ACCOUNT: () => `/account/v1/list`,
 };

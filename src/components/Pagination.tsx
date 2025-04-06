@@ -1,9 +1,9 @@
-import { MdArrowBack, MdArrowForward } from "react-icons/md";
-import { twMerge } from "tailwind-merge";
-import { IResPaginatedData } from "../types/response/IResModel";
-import { IPaginatedChange } from "../types/type/IPaginatedChange";
-import { scrollToTop } from "../utils/scrool-to-top";
-import { Card, CardBody } from "./Card";
+import { MdArrowBack, MdArrowForward } from 'react-icons/md';
+import { twMerge } from 'tailwind-merge';
+import { IResPaginatedData } from '../types/response/IResModel';
+import { IPaginatedChange } from '../types/type/IPaginatedChange';
+import { scrollToTop } from '../utils/scrool-to-top';
+import { Card, CardBody } from './Card';
 
 interface PaginationProps {
   data: IResPaginatedData;
@@ -21,18 +21,18 @@ export default function Pagination({ data, onPageChange }: PaginationProps) {
     }
   } else {
     pages.push(1);
-    if (page > visiblePages + 3) pages.push("...");
+    if (page > visiblePages + 3) pages.push('...');
 
     const startPage = Math.max(2, page - 1);
     const endPage = Math.min(page_count - 1, page + 3);
     for (let i = startPage; i <= endPage; i++) pages.push(i);
 
-    if (page < page_count - visiblePages) pages.push("...");
+    if (page < page_count - visiblePages) pages.push('...');
     pages.push(page_count);
   }
 
   const handlePageChange = (newPage: number) => {
-    scrollToTop()
+    scrollToTop();
     if (newPage >= 0 && newPage <= page_count) {
       onPageChange({ size: data.size, page: newPage });
     }
@@ -60,7 +60,7 @@ export default function Pagination({ data, onPageChange }: PaginationProps) {
         <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
           <div>
             <p className="text-sm text-gray-700">
-              <span className="font-medium">{(page + 1) * 10}</span> dari {" "}
+              <span className="font-medium">{(page + 1) * 10}</span> dari{' '}
               <span className="font-medium">{data.total_data}</span> data
             </p>
           </div>
@@ -68,20 +68,22 @@ export default function Pagination({ data, onPageChange }: PaginationProps) {
             <nav className="isolate inline-flex -space-x-px rounded-md shadow-xs" aria-label="Pagination">
               <button
                 onClick={() => handlePageChange(page - 1)}
-                disabled={page === 1}
+                disabled={page === 0}
                 className="relative inline-flex items-center rounded-l-md px-3 cursor-pointer py-2 text-gray-400 ring-1  ring-gray-300 ring-inset hover:bg-gray-50 focus:z-20 focus:outline-offset-0 disabled:opacity-50"
               >
                 <MdArrowBack />
               </button>
 
               {pages.map((p, index) =>
-                typeof p === "number" ? (
+                typeof p === 'number' ? (
                   <button
                     key={index}
                     onClick={() => handlePageChange(p - 1)}
                     className={twMerge(
                       `relative inline-flex cursor-pointer items-center px-4  py-2 text-sm font-semibold ring-1 ring-gray-300 ring-inset hover:bg-gray-50 focus:z-20 focus:outline-offset-0`,
-                      p === (page + 1) ? "z-10 bg-primary-main hover:bg-primary-light text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500" : "text-gray-900"
+                      p === page + 1
+                        ? 'z-10 bg-primary-main hover:bg-primary-light text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500'
+                        : 'text-gray-900',
                     )}
                   >
                     {p}
@@ -93,7 +95,7 @@ export default function Pagination({ data, onPageChange }: PaginationProps) {
                   >
                     {p}
                   </span>
-                )
+                ),
               )}
 
               <button
@@ -102,7 +104,6 @@ export default function Pagination({ data, onPageChange }: PaginationProps) {
                 className="relative  inline-flex items-center rounded-r-md px-3 cursor-pointer py-2 text-gray-400 ring-1 ring-gray-300 ring-inset hover:bg-gray-50 focus:z-20 focus:outline-offset-0 disabled:opacity-50"
               >
                 <MdArrowForward />
-
               </button>
             </nav>
           </div>

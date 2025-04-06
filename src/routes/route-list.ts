@@ -15,6 +15,7 @@ import { MyOrderPage } from '../pages/user/my-order/MyOrderPage.tsx';
 import DetailMyOrderPage from '../pages/user/my-order/DetailMyOrderPage.tsx';
 import AdminOrderListPage from '../pages/admin/admin-order/AdminOrderListPage.tsx';
 import AdminDetailOrderPage from '../pages/admin/admin-order/AdminDetailOrderPage.tsx';
+import AdminAccountPage from '../pages/admin/admin-account/AdminAccountPage.tsx';
 
 export const RouteList: IRouteList[] = [
   {
@@ -92,5 +93,10 @@ export const adminRouteList: IRouteList[] = [
     route: ROUTES.ADMIN.NEW_PRODUCT(),
     type: PAGE_TYPE_ENUM.DASHBOARD,
     elements: NewProductPage,
+  },
+  {
+    route: ROUTES.ADMIN.ACCOUNT(),
+    type: PAGE_TYPE_ENUM.DASHBOARD,
+    elements: AdminAccountPage,
   },
 ];
