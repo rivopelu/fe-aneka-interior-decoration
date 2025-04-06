@@ -23,4 +23,5 @@ export const ENDPOINT = {
   INPUT_RESI: (id: string) => `/order/v1/admin/input-resi/${id}`,
   CONFIRM_ORDER: (id: string) => `/order/v1/user/confirm/${id}`,
   LIST_ACCOUNT: () => `/account/v1/list`,
+  ORDER_REPORT: () => `/order/v1/admin/report`,
 };
