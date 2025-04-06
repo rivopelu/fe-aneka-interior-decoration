@@ -3,38 +3,60 @@ import { ProductAction } from '../redux/actions/product.action';
 import { IProductReducers } from '../redux/reducers/product.reducers';
 import { useAppDispatch, useAppSelector } from '../redux/store';
 import { IResListProduct } from '../types/response/IResListProduct';
+import { useQuery } from '../hooks/useQuery.ts';
+import { useLocation } from 'react-router-dom';
 
 export function useHomePage() {
   const dispatch = useAppDispatch();
   const productActions = new ProductAction();
   const Product: IProductReducers = useAppSelector((state) => state.Product);
   const loading = Product.listProduct?.loading;
-
+  const query = useQuery();
+  const [searchValue, setSearchValue] = useState<string>(() => query.get('q') || '');
+  const location = useLocation();
   const [listData, setListData] = useState<IResListProduct[]>([]);
   const [page, setPage] = useState<number>(0);
   const [size] = useState<number>(10);
 
-  function fetchData(page: number, size: number) {
-    const queryString = `?page=${page}&size=${size}`;
+  useEffect(() => {
+    console.log(location.search);
+    console.log(query.get('q') || '');
+    setSearchValue(query.get('q') || '');
+  }, [location.search]);
+
+  useEffect(() => {
+    fetchData(page, size, searchValue);
+  }, [searchValue]);
+
+  function fetchData(page: number, size: number, search?: string) {
+    let queryString = `?page=${page}&size=${size}`;
+    if (search) {
+      queryString += `&name=${search}`;
+    }
     dispatch(productActions.listProduct(queryString));
   }
 
   useEffect(() => {
-    const data = Product?.listProduct?.data;
+    if (searchValue) {
+      const data = Product?.listProduct?.data || [];
+      setListData(data);
+    } else {
+      const data = Product?.listProduct?.data;
 
-    if (!Array.isArray(data)) return;
+      if (!Array.isArray(data)) return;
 
-    setListData((prevListData) => {
-      const newList = [...prevListData];
+      setListData((prevListData) => {
+        const newList = [...prevListData];
 
-      data.forEach((item) => {
-        if (!newList.some((existingItem) => existingItem.id === item.id)) {
-          newList.push(item);
-        }
+        data.forEach((item) => {
+          if (!newList.some((existingItem) => existingItem.id === item.id)) {
+            newList.push(item);
+          }
+        });
+
+        return newList;
       });
-
-      return newList;
-    });
+    }
   }, [Product?.listProduct]);
   useEffect(() => {
     fetchData(page, size);

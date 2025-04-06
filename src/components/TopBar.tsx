@@ -15,6 +15,7 @@ import BadgeIcon from './BadgeIcon.tsx';
 import { useAppDispatch, useAppSelector } from '../redux/store.ts';
 import { CartAction } from '../redux/actions/cart.action.ts';
 import { useEffect } from 'react';
+import GlobalSearch from './GlobalSearch.tsx';
 
 export default function TopBar() {
   const dispatch = useAppDispatch();
@@ -36,8 +37,8 @@ export default function TopBar() {
           <div className={'flex items-center'}>
             <BrandLogo type={'light'} />
           </div>
-          <div className={'my-auto flex items-center justify-center bg-white h-fit'}>
-            <div>SEARCH</div>
+          <div className={'flex-1 my-auto items-center'}>
+            <GlobalSearch />
           </div>
           <div className={'flex justify-end items-center'}>
             {user ? (
