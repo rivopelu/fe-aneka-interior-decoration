@@ -4,7 +4,6 @@ import { IProductReducers } from '../redux/reducers/product.reducers';
 import { useAppDispatch, useAppSelector } from '../redux/store';
 import { IResListProduct } from '../types/response/IResListProduct';
 import { useQuery } from '../hooks/useQuery.ts';
-import { useLocation } from 'react-router-dom';
 
 export function useHomePage() {
   const dispatch = useAppDispatch();
@@ -13,26 +12,38 @@ export function useHomePage() {
   const loading = Product.listProduct?.loading;
   const query = useQuery();
   const [searchValue, setSearchValue] = useState<string>(() => query.get('q') || '');
-  const location = useLocation();
   const [listData, setListData] = useState<IResListProduct[]>([]);
   const [page, setPage] = useState<number>(0);
   const [size] = useState<number>(10);
+  const categoryId = query.get('category_id');
 
   useEffect(() => {
-    console.log(location.search);
-    console.log(query.get('q') || '');
     setSearchValue(query.get('q') || '');
-  }, [location.search]);
+    setSearchValue(query.get('category_id') || '');
+  }, []);
+
+  useEffect(() => {
+    if (categoryId) {
+      fetchData(page, size, '', categoryId);
+    } else {
+      fetchData(page, size);
+    }
+    console.log('MASUK');
+  }, [query.get('category_id')]);
 
   useEffect(() => {
     fetchData(page, size, searchValue);
   }, [searchValue]);
 
-  function fetchData(page: number, size: number, search?: string) {
+  function fetchData(page: number, size: number, search?: string, category?: string) {
     let queryString = `?page=${page}&size=${size}`;
     if (search) {
-      queryString += `&name=${search}`;
+      queryString = queryString + `&name=${search}`;
     }
+    if (category) {
+      queryString = queryString + `?page=${page}&size=${size}&category_id=${category}`;
+    }
+    console.log(queryString);
     dispatch(productActions.listProduct(queryString));
   }
 
