@@ -48,7 +48,7 @@ export function useHomePage() {
   }
 
   useEffect(() => {
-    if (searchValue) {
+    if (searchValue || categoryId) {
       const data = Product?.listProduct?.data || [];
       setListData(data);
     } else {
