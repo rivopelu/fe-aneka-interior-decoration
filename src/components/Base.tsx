@@ -4,6 +4,8 @@ import TopBar from './TopBar.tsx';
 import { AnimatePresence, motion } from 'framer-motion';
 import Sidebar from './Sidebar.tsx';
 import { TopBarDashboard } from './TopBarDashboard.tsx';
+import { MdWhatsapp } from 'react-icons/md';
+import { Link } from 'react-router-dom';
 
 export default function Base(props: IProps) {
   function checkComponent() {
@@ -66,7 +68,24 @@ export default function Base(props: IProps) {
     }
   }
 
-  return <>{checkComponent()}</>;
+  function waButton() {
+    return (
+      <Link
+        target={'_blank'}
+        to={'https://wa.me/6285174408171'}
+        className={'fixed bg-green-700 bottom-2 right-2 text-3xl p-3 text-white rounded-full'}
+      >
+        <MdWhatsapp />
+      </Link>
+    );
+  }
+
+  return (
+    <>
+      {checkComponent()}
+      {waButton()}
+    </>
+  );
 }
 
 interface IProps {
