@@ -20,7 +20,7 @@ export function useAdminProductPage() {
 
   const [searchValue, setSearchValue] = useState<string>('');
   const [activeSearch, setActiveSearch] = useState<boolean>(false);
-  const [selectedProductDelete, setSelectedProductDelete] = useState<string | undefined>(undefined);
+  const [selectedProductDelete, setSelectedProductDelete] = useState<IResListProduct | undefined>(undefined);
   const [listData, setListData] = useState<IResListProduct[]>([]);
   const [loadingArchive, setLoadingArchive] = useState<boolean>(false);
   const [page] = useState<number>(0);
@@ -62,11 +62,13 @@ export function useAdminProductPage() {
     if (selectedProductDelete) {
       setLoadingArchive(true);
       httpService
-        .DELETE(ENDPOINT.ARCHIVE_PRODUCT(selectedProductDelete))
+        .DELETE(ENDPOINT.ARCHIVE_PRODUCT(selectedProductDelete.id))
         .then(() => {
           setSelectedProductDelete(undefined);
           setLoadingArchive(false);
-          toast.success('Produk berhasil diarsipkan');
+          toast.success(
+            selectedProductDelete?.active ? 'Produk berhasil diarsipkan' : 'Produk berhasil dikeluarkan dari arsip',
+          );
           fetchData(page, size);
         })
         .catch((err) => {

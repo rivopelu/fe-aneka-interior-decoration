@@ -1,4 +1,4 @@
-import { MdDelete, MdEdit, MdInfo } from 'react-icons/md';
+import { MdArchive, MdDelete, MdEdit, MdInfo } from 'react-icons/md';
 import IconButton from '../../../components/IconButton';
 import { InputSearch } from '../../../components/InputSearch';
 import PageContainer from '../../../components/PageContainer';
@@ -52,10 +52,16 @@ export default function AdminProductPage() {
     {
       component: (e) => (
         <div className="px-10 flex gap-3 items-center">
-          {e.active && (
+          {e?.active ? (
             <Tooltip content={'Arsipkan Produk'}>
-              <IconButton className="text-red-700" onClick={() => page.setSelectedProductDelete(e.id)}>
+              <IconButton className="text-red-700" onClick={() => page.setSelectedProductDelete(e)}>
                 <MdDelete />
+              </IconButton>
+            </Tooltip>
+          ) : (
+            <Tooltip content={'Keluarkan dari arsip'}>
+              <IconButton className="text-green-700" onClick={() => page.setSelectedProductDelete(e)}>
+                <MdArchive />
               </IconButton>
             </Tooltip>
           )}
@@ -84,9 +90,11 @@ export default function AdminProductPage() {
         loading={page.loadingArchive}
         onSubmit={page.onArchive}
         onClose={() => page.setSelectedProductDelete(undefined)}
-        title={'Arsipkan produk'}
+        title={page.selectedProductDelete?.active ? 'Arsipkan produk' : 'keluarkan produk dari arsip'}
         description={
-          'Produk yang diarsipkan akan hilang dari katalog produk yang dilihat user, tetapi seluruh proses transaksi yang sudah berjalan tetapi berlanjut'
+          page?.selectedProductDelete?.active
+            ? 'Produk yang diarsipkan akan hilang dari katalog produk yang dilihat user, tetapi seluruh proses transaksi yang sudah berjalan tetapi berlanjut'
+            : undefined
         }
         open={!!page.selectedProductDelete}
       />
