@@ -14,7 +14,7 @@ export default function InputRupiah(props: IProps) {
 
   useEffect(() => {
     if (props.value) {
-      setDisplayValue(formatRupiah(props.value));
+      setDisplayValue(formatRupiah(String(props.value)));
     } else {
       setDisplayValue('');
     }
