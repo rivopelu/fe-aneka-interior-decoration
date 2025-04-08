@@ -1,4 +1,4 @@
-import { MdDelete, MdInfo } from 'react-icons/md';
+import { MdDelete, MdEdit, MdInfo } from 'react-icons/md';
 import IconButton from '../../../components/IconButton';
 import { InputSearch } from '../../../components/InputSearch';
 import PageContainer from '../../../components/PageContainer';
@@ -63,6 +63,13 @@ export default function AdminProductPage() {
             <Link to={ROUTES.DETAIL_PRODUCT(e.id)}>
               <IconButton className="text-primary-main">
                 <MdInfo />
+              </IconButton>
+            </Link>
+          </Tooltip>
+          <Tooltip content={'Edit Produk'}>
+            <Link to={ROUTES.ADMIN.EDIT_PRODUCT(e.id)}>
+              <IconButton className="text-primary-main">
+                <MdEdit />
               </IconButton>
             </Link>
           </Tooltip>

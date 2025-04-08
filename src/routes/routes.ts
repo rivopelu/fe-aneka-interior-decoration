@@ -12,6 +12,7 @@ export const ROUTES = {
     DASHBOARD: () => `/admin/dashboard`,
     PRODUCT: () => `/admin/product`,
     NEW_PRODUCT: () => `/admin/product/new`,
+    EDIT_PRODUCT: (id: string) => `/admin/product/edit/${id}`,
     ORDER: () => `/admin/order`,
     DETAIL_ORDER: (id: string) => `/admin/order/${id}`,
     ACCOUNT: () => `/admin/account`,

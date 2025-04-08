@@ -65,6 +65,20 @@ export class ProductAction extends BaseActions {
         });
     };
   }
+  getAdminDetailProduct(id: string) {
+    return (dispatch: Dispatch) => {
+      dispatch(this.action.detailProduct({ loading: true, data: undefined }));
+      this.httpService
+        .GET(ENDPOINT.ADMIN_DETAIL_PRODUCT(id))
+        .then((res: BaseResponse<IResDetailProduct>) => {
+          dispatch(this.action.detailProduct({ loading: false, data: res.data.response_data }));
+        })
+        .catch((e) => {
+          this.errorService.fetchApiError(e);
+          dispatch(this.action.detailProduct({ loading: false, data: undefined }));
+        });
+    };
+  }
 
   getDetailProduct(id: string) {
     return (dispatch: Dispatch) => {

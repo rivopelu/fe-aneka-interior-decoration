@@ -99,4 +99,9 @@ export const adminRouteList: IRouteList[] = [
     type: PAGE_TYPE_ENUM.DASHBOARD,
     elements: AdminAccountPage,
   },
+  {
+    route: ROUTES.ADMIN.EDIT_PRODUCT(':id'),
+    type: PAGE_TYPE_ENUM.DASHBOARD,
+    elements: NewProductPage,
+  },
 ];

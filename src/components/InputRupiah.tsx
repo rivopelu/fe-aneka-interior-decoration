@@ -36,8 +36,8 @@ export default function InputRupiah(props: IProps) {
         ...e,
         target: {
           ...e.target,
-          value: inputValue
-        }
+          value: inputValue,
+        },
       };
       props.onChange(syntheticEvent as any);
     }
@@ -51,7 +51,7 @@ export default function InputRupiah(props: IProps) {
     return new Intl.NumberFormat('id-ID', {
       style: 'decimal',
       minimumFractionDigits: 0,
-      maximumFractionDigits: 0
+      maximumFractionDigits: 0,
     }).format(numberValue);
   }
 
@@ -104,7 +104,7 @@ interface IProps {
   errorMessage?: any;
   helperText?: string;
   name: string;
-  value?: string;
+  value?: string | number;
   onBlur?: FocusEventHandler<HTMLInputElement>;
   onChange?: ChangeEventHandler<HTMLInputElement>;
   autoComplete?: string;
