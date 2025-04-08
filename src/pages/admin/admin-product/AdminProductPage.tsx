@@ -12,6 +12,8 @@ import Button from '../../../components/Button';
 import { useAdminProductPage } from './useAdminProductPage';
 import { Link } from 'react-router-dom';
 import { ROUTES } from '../../../routes/routes';
+import Tooltip from '../../../components/Tooltip.tsx';
+import PopupQuestion from '../../../components/PopupQuestion.tsx';
 
 export default function AdminProductPage() {
   const page = useAdminProductPage();
@@ -25,7 +27,9 @@ export default function AdminProductPage() {
         <div className="flex gap-3 max-w-xl">
           <img src={e.image} alt={e.name} className="object-cover h-20 aspect-square" />
           <div>
-            <div>{e.name}</div>
+            <div>
+              {e.name} {!e?.active && <span className={'text-red-800'}>(diarsipkan)</span>}
+            </div>
             <div className="text-sm text-gray-500 line-clamp-2">{e.description}</div>
           </div>
         </div>
@@ -46,14 +50,22 @@ export default function AdminProductPage() {
       component: (e) => <div>{numberFormat.toRupiah(e.price)}</div>,
     },
     {
-      component: () => (
+      component: (e) => (
         <div className="px-10 flex gap-3 items-center">
-          <IconButton className="text-red-700">
-            <MdDelete />
-          </IconButton>
-          <IconButton className="text-primary-main">
-            <MdInfo />
-          </IconButton>
+          {e.active && (
+            <Tooltip content={'Arsipkan Produk'}>
+              <IconButton className="text-red-700" onClick={() => page.setSelectedProductDelete(e.id)}>
+                <MdDelete />
+              </IconButton>
+            </Tooltip>
+          )}
+          <Tooltip content={'Detail Produk'}>
+            <Link to={ROUTES.DETAIL_PRODUCT(e.id)}>
+              <IconButton className="text-primary-main">
+                <MdInfo />
+              </IconButton>
+            </Link>
+          </Tooltip>
         </div>
       ),
     },
@@ -61,6 +73,16 @@ export default function AdminProductPage() {
 
   return (
     <div className="mt-8">
+      <PopupQuestion
+        loading={page.loadingArchive}
+        onSubmit={page.onArchive}
+        onClose={() => page.setSelectedProductDelete(undefined)}
+        title={'Arsipkan produk'}
+        description={
+          'Produk yang diarsipkan akan hilang dari katalog produk yang dilihat user, tetapi seluruh proses transaksi yang sudah berjalan tetapi berlanjut'
+        }
+        open={!!page.selectedProductDelete}
+      />
       <PageContainer>
         <div className="flex items-center justify-between">
           <h3 className="text-3xl">Product Management</h3>

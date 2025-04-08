@@ -13,6 +13,7 @@ function PopupQuestion(props: IProps) {
           <Flex gap={'xl'} align={'center'} direction={'col'} justify={'center'}>
             <div className={'text-xl text-center '}>{props.title}</div>
             {props?.img && <img className={'h-32'} src={props.img} alt={'confirmation'} />}
+            {props.description && <p className={'text-center text-gray-600'}>{props.description}</p>}
           </Flex>
         </CardBody>
         <Divider />
@@ -39,6 +40,7 @@ interface IProps {
   open?: boolean;
   title: string;
   img?: string;
+  description?: string;
   onClose?: () => void;
   loading?: boolean;
   onSubmit?: () => void;

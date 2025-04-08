@@ -30,6 +30,27 @@ export class ProductAction extends BaseActions {
     };
   }
 
+  listProductAdmin(param?: string) {
+    return (dispatch: Dispatch) => {
+      dispatch(this.action.listProduct({ loading: true, data: undefined }));
+      this.httpService
+        .GET(ENDPOINT.LIST_PRODUCT_ADMIN() + (param || ''))
+        .then((res: BaseResponsePaginated<IResListProduct[]>) => {
+          dispatch(
+            this.action.listProduct({
+              loading: false,
+              data: res.data.response_data,
+              paginated_data: res.data.paginated_data,
+            }),
+          );
+        })
+        .catch((e) => {
+          this.errorService.fetchApiError(e);
+          dispatch(this.action.listProduct({ loading: false, data: undefined }));
+        });
+    };
+  }
+
   listCategory() {
     return (dispatch: Dispatch) => {
       dispatch(this.action.listCategory({ loading: true, data: undefined }));

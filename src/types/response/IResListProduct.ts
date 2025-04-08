@@ -1,4 +1,3 @@
-
 export interface IResListProduct {
   name: string;
   id: string;
@@ -9,5 +8,6 @@ export interface IResListProduct {
   category_slug: string;
   image: string;
   created_date: string;
+  active: boolean;
   price: number;
 }
