@@ -23,14 +23,16 @@ export function useAdminProductPage() {
   const [selectedProductDelete, setSelectedProductDelete] = useState<IResListProduct | undefined>(undefined);
   const [listData, setListData] = useState<IResListProduct[]>([]);
   const [loadingArchive, setLoadingArchive] = useState<boolean>(false);
-  const [page] = useState<number>(0);
-  const [size] = useState<number>(10);
+  const [page, setPage] = useState<number>(0);
+  const [size, setSize] = useState<number>(10);
 
   function fetchData(page: number, size: number, name?: string) {
     let queryString = `?page=${page}&size=${size}`;
     if (name) {
       queryString = queryString + `&name=${name}`;
     }
+    setPage(page)
+    setSize(size)
     dispatch(productActions.listProductAdmin(queryString));
   }
   useEffect(() => {
@@ -38,7 +40,7 @@ export function useAdminProductPage() {
   }, []);
 
   function onSearch(e: string) {
-    fetchData(page, size, e);
+    fetchData(0, 10, e);
     setActiveSearch(true);
   }
 
