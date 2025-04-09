@@ -12,6 +12,7 @@ export function useHomePage() {
   const loading = Product.listProduct?.loading;
   const query = useQuery();
   const [searchValue, setSearchValue] = useState<string>(() => query.get('q') || '');
+  const [category, setCategory] = useState<string>(() => query.get('category_id') || '');
   const [listData, setListData] = useState<IResListProduct[]>([]);
   const [page, setPage] = useState<number>(0);
   const [size] = useState<number>(10);
@@ -19,8 +20,13 @@ export function useHomePage() {
 
   useEffect(() => {
     setSearchValue(query.get('q') || '');
-    setSearchValue(query.get('category_id') || '');
+    setCategory(query.get('category_id') || '');
   }, []);
+
+  useEffect(() => {
+    setSearchValue(query.get('q') || '');
+
+  }, [query.get("q")])
 
   useEffect(() => {
     if (categoryId) {
@@ -28,12 +34,15 @@ export function useHomePage() {
     } else {
       fetchData(page, size);
     }
-    console.log('MASUK');
   }, [query.get('category_id')]);
 
   useEffect(() => {
     fetchData(page, size, searchValue);
   }, [searchValue]);
+
+  useEffect(() => {
+    fetchData(page, size, '', category);
+  }, [category]);
 
   function fetchData(page: number, size: number, search?: string, category?: string) {
     let queryString = `?page=${page}&size=${size}`;
