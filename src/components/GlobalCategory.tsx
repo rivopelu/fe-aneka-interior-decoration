@@ -4,6 +4,10 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '../hooks/useQuery.ts';
 import { twMerge } from 'tailwind-merge';
+import Dropdown from './Dropdown.tsx';
+import Button from './Button.tsx';
+import { ListGroup, ListItem } from './List.tsx';
+import { MdArrowDownward } from 'react-icons/md';
 
 export default function GlobalCategory() {
   const productAction = new ProductAction();
@@ -28,18 +32,18 @@ export default function GlobalCategory() {
     }
   };
   return (
-    <div className={'flex text-gray-300 gap-12 justify-between'}>
-      {listData.map((item, i) => (
-        <div
-          onClick={() => handleClick(item.id)}
-          className={twMerge(
-            `${categoryId === item.id ? 'text-white cur underline font-semibold' : ' '} cursor-pointer`,
-          )}
-          key={i}
-        >
-          {item.name}
-        </div>
-      ))}
-    </div>
+    <Dropdown
+      toggle={
+        <Button variant="outlined" color="white" endIcon={<MdArrowDownward />}>
+          Kategory
+        </Button>
+      }
+    >
+      <ListGroup>
+        {listData.map((item, i) => (
+          <ListItem onClick={() => handleClick(item.id)} key={i} className="min-w-xs" label={item.name} />
+        ))}
+      </ListGroup>
+    </Dropdown>
   );
 }

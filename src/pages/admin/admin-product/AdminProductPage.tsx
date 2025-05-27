@@ -24,7 +24,7 @@ export default function AdminProductPage() {
     {
       headerTitle: 'Produk',
       component: (e) => (
-        <div className="flex gap-3 max-w-xl">
+        <div className="flex gap-3 max-w-sm px-3">
           <img src={e.image} alt={e.name} className="object-cover h-20 aspect-square" />
           <div>
             <div>
@@ -37,12 +37,14 @@ export default function AdminProductPage() {
     },
     {
       headerTitle: 'Kategory',
-      component: (e) => <div>{e.category_name}</div>,
+      component: (e) => <div className="px-3">{e.category_name}</div>,
     },
     {
       headerTitle: 'Tanggal Di Buat',
       component: (e) => (
-        <div>{e.created_date ? dateHelper.toFormatDate(new Date(e.created_date), 'dd LLLL, yyyy - HH:mm') : '-'}</div>
+        <div className="px-3">
+          {e.created_date ? dateHelper.toFormatDate(new Date(e.created_date), 'dd LLLL, yyyy - HH:mm') : '-'}
+        </div>
       ),
     },
     {

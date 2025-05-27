@@ -42,7 +42,8 @@ export default function TopBar() {
             <div className={'flex-1 my-auto items-center'}>
               <GlobalSearch />
             </div>
-            <div className={'flex justify-end items-center'}>
+            <div className={'flex justify-end items-center gap-4'}>
+              <GlobalCategory />
               {user ? (
                 <div className={'flex items-center gap-8'}>
                   <Tooltip content={'Keranjang'} position={'bottom'}>
@@ -84,9 +85,6 @@ export default function TopBar() {
                 </div>
               )}
             </div>
-          </div>
-          <div className={''}>
-            <GlobalCategory />
           </div>
         </div>
       </PageContainer>

@@ -9,6 +9,7 @@ export const ROUTES = {
   MY_ORDER: () => `/order`,
   DETAIL_MY_ORDER: (id: string) => `/order/${id}`,
   ADMIN: {
+    CATEGORY: () => `/admin/category`,
     DASHBOARD: () => `/admin/dashboard`,
     PRODUCT: () => `/admin/product`,
     NEW_PRODUCT: () => `/admin/product/new`,

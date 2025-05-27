@@ -31,8 +31,8 @@ export function useAdminProductPage() {
     if (name) {
       queryString = queryString + `&name=${name}`;
     }
-    setPage(page)
-    setSize(size)
+    setPage(page);
+    setSize(size);
     dispatch(productActions.listProductAdmin(queryString));
   }
   useEffect(() => {

@@ -1,10 +1,10 @@
-import { MdDashboard } from "react-icons/md";
-import { sidebarData } from "../constants/sidebar-data";
-import SidebarMenu from "./SidebarMenu";
-import { useLocation } from "react-router-dom";
+import { MdDashboard } from 'react-icons/md';
+import { sidebarData } from '../constants/sidebar-data';
+import SidebarMenu from './SidebarMenu';
+import { useLocation } from 'react-router-dom';
 
 export default function Sidebar() {
-  const location = useLocation()
+  const location = useLocation();
   const firstPath = location.pathname.split('/')[2];
   return (
     <div className={' w-sidebar-width'}>
@@ -16,19 +16,21 @@ export default function Sidebar() {
           </div>
         </div>
         <div className={'p-4 grid gap-1'}>
-          {
-            sidebarData.map((item, i) => {
-              const itemFirstPath = item.path && item?.path.split('/')[2];
+          {sidebarData.map((item, i) => {
+            const itemFirstPath = item.path && item?.path.split('/')[2];
 
-              return (
-                <SidebarMenu
-                  active={firstPath === itemFirstPath}
-                  key={i} icon={item.icon} label={item.label} path={item.path} />
-              )
-            })
-          }
+            return (
+              <SidebarMenu
+                active={firstPath === itemFirstPath}
+                key={i}
+                icon={item.icon}
+                label={item.label}
+                path={item.path}
+              />
+            );
+          })}
         </div>
       </div>
     </div>
-  )
+  );
 }

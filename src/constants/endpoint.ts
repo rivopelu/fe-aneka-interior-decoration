@@ -28,4 +28,7 @@ export const ENDPOINT = {
   CONFIRM_ORDER: (id: string) => `/order/v1/user/confirm/${id}`,
   LIST_ACCOUNT: () => `/account/v1/list`,
   ORDER_REPORT: () => `/order/v1/admin/report`,
+  CREATE_CATEGORY: () => `/v1/category/new`,
+  EDIT_CATEGORY: () => `/v1/category/edit`,
+  DELETE_CATEGORY: (id: string) => `/v1/category/delete/${id}`,
 };

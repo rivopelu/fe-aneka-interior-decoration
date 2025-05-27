@@ -16,6 +16,7 @@ import DetailMyOrderPage from '../pages/user/my-order/DetailMyOrderPage.tsx';
 import AdminOrderListPage from '../pages/admin/admin-order/AdminOrderListPage.tsx';
 import AdminDetailOrderPage from '../pages/admin/admin-order/AdminDetailOrderPage.tsx';
 import AdminAccountPage from '../pages/admin/admin-account/AdminAccountPage.tsx';
+import AdminCategoryPage from '../pages/admin/admin-category/AdminCategoryPage.tsx';
 
 export const RouteList: IRouteList[] = [
   {
@@ -45,6 +46,11 @@ export const userRouteList: IRouteList[] = [
     route: ROUTES.MY_ORDER(),
     type: PAGE_TYPE_ENUM.PRIMARY,
     elements: MyOrderPage,
+  },
+  {
+    route: ROUTES.ADMIN.CATEGORY(),
+    type: PAGE_TYPE_ENUM.DASHBOARD,
+    elements: AdminCategoryPage,
   },
   {
     route: ROUTES.DETAIL_MY_ORDER(':id'),
