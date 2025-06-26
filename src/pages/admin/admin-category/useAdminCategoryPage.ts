@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ProductAction } from '../../../redux/actions/product.action';
+import { CategoryAction } from '../../../redux/actions/category.action';
 import { useAppDispatch, useAppSelector } from '../../../redux/store';
 import { useFormik } from 'formik';
 import { HttpService } from '../../../services/http.service';
@@ -7,14 +8,22 @@ import ErrorService from '../../../services/error.service';
 import { ENDPOINT } from '../../../constants/endpoint';
 import toast from 'react-hot-toast';
 import { IResMasterData } from '../../../types/response/IResMasterData';
+import { IReqCreateSubCategory } from '../../../types/request/IReqCreateSubCategory';
+import { ILabelValue } from '../../../types/type/ILabelValue';
 
 export function useAdminCategoryPage() {
   const productAction = new ProductAction();
+  const categoryAction = new CategoryAction();
   const dispatch = useAppDispatch();
   const Product = useAppSelector((state) => state.Product);
 
   const [showModalForm, setShowModalForm] = useState<boolean>(false);
   const [loadingForm, setLoadingForm] = useState<boolean>(false);
+
+  // Sub-category states
+  const [showSubCategoryModal, setShowSubCategoryModal] = useState<boolean>(false);
+  const [loadingSubCategoryForm, setLoadingSubCategoryForm] = useState<boolean>(false);
+  const [categoryOptions, setCategoryOptions] = useState<ILabelValue<string>[]>([]);
 
   const httpService = new HttpService();
   const errorService = new ErrorService();
@@ -36,6 +45,26 @@ export function useAdminCategoryPage() {
     },
     onSubmit: (e) => onCreate(e),
   });
+
+  // Sub-category formik
+  const subCategoryFormik = useFormik<IReqCreateSubCategory>({
+    initialValues: {
+      name: '',
+      category_id: '',
+    },
+    onSubmit: (values) => onCreateSubCategory(values),
+  });
+
+  // Update category options when data changes
+  useEffect(() => {
+    if (data.length > 0) {
+      const options: ILabelValue<string>[] = data.map((category) => ({
+        label: category.name,
+        value: category.id,
+      }));
+      setCategoryOptions(options);
+    }
+  }, [data]);
 
   function onCreate(data: any) {
     setLoadingForm(true);
@@ -99,6 +128,29 @@ export function useAdminCategoryPage() {
       });
   }
 
+  // Sub-category functions
+  function onCreateSubCategory(data: IReqCreateSubCategory) {
+    setLoadingSubCategoryForm(true);
+    categoryAction
+      .createSubCategory(data)
+      .then(() => {
+        toast.success('Sub-Category berhasil dibuat');
+        onCloseSubCategoryModal();
+        subCategoryFormik.resetForm();
+        setLoadingSubCategoryForm(false);
+        fetchData(); // Refresh the category list
+      })
+      .catch((e) => {
+        errorService.fetchApiError(e);
+        setLoadingSubCategoryForm(false);
+      });
+  }
+
+  function onCloseSubCategoryModal() {
+    setShowSubCategoryModal(false);
+    subCategoryFormik.resetForm();
+  }
+
   return {
     data,
     onCloseModalForm,
@@ -108,5 +160,12 @@ export function useAdminCategoryPage() {
     loadingForm,
     onClickEdit,
     onClickDeleteCategory,
+    // Sub-category functionality
+    showSubCategoryModal,
+    setShowSubCategoryModal,
+    subCategoryFormik,
+    loadingSubCategoryForm,
+    onCloseSubCategoryModal,
+    categoryOptions,
   };
 }
