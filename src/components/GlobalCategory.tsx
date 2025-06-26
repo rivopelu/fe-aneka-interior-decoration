@@ -1,14 +1,13 @@
-import { ProductAction } from '../redux/actions/product.action.ts';
-import { useAppDispatch, useAppSelector } from '../redux/store.ts';
 import { useEffect, useState } from 'react';
+import { MdArrowDownward, MdCategory, MdSubdirectoryArrowRight } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '../hooks/useQuery.ts';
-import { twMerge } from 'tailwind-merge';
-import Dropdown from './Dropdown.tsx';
-import Button from './Button.tsx';
-import { ListGroup, ListItem, ListItemNested } from './List.tsx';
-import { MdArrowDownward, MdCategory, MdSubdirectoryArrowRight } from 'react-icons/md';
+import { ProductAction } from '../redux/actions/product.action.ts';
+import { useAppDispatch, useAppSelector } from '../redux/store.ts';
 import { IResMasterData } from '../types/response/IResMasterData.ts';
+import Button from './Button.tsx';
+import Dropdown from './Dropdown.tsx';
+import { ListGroup, ListItem, ListItemNested } from './List.tsx';
 
 export default function GlobalCategory() {
   const productAction = new ProductAction();
@@ -32,72 +31,6 @@ export default function GlobalCategory() {
   useEffect(() => {
     if (listData.length > 0) {
       const enhanced: IResMasterData[] = listData.map((category) => {
-        const mockSubCategories: IResMasterData[] = [];
-        const categoryName = category.name.toLowerCase();
-
-        if (categoryName.includes('furniture') || categoryName.includes('mebel') || categoryName.includes('furnitur')) {
-          mockSubCategories.push(
-            { id: `${category.id}_sofa`, name: 'Sofa & Kursi Santai', slug: 'sofa' },
-            { id: `${category.id}_chair`, name: 'Kursi & Bangku', slug: 'chair' },
-            { id: `${category.id}_table`, name: 'Meja & Rak', slug: 'table' },
-            { id: `${category.id}_bed`, name: 'Tempat Tidur', slug: 'bed' },
-            { id: `${category.id}_storage`, name: 'Lemari & Penyimpanan', slug: 'storage' },
-          );
-        } else if (
-          categoryName.includes('decoration') ||
-          categoryName.includes('dekorasi') ||
-          categoryName.includes('hiasan')
-        ) {
-          mockSubCategories.push(
-            { id: `${category.id}_wall`, name: 'Hiasan Dinding', slug: 'wall-decoration' },
-            { id: `${category.id}_plant`, name: 'Tanaman Hias', slug: 'plants' },
-            { id: `${category.id}_vase`, name: 'Vas & Pot', slug: 'vase-pot' },
-            { id: `${category.id}_frame`, name: 'Bingkai & Foto', slug: 'frame' },
-            { id: `${category.id}_candle`, name: 'Lilin & Aromaterapi', slug: 'candle' },
-          );
-        } else if (
-          categoryName.includes('lighting') ||
-          categoryName.includes('lampu') ||
-          categoryName.includes('pencahayaan')
-        ) {
-          mockSubCategories.push(
-            { id: `${category.id}_ceiling`, name: 'Lampu Gantung', slug: 'ceiling-light' },
-            { id: `${category.id}_table_lamp`, name: 'Lampu Meja', slug: 'table-lamp' },
-            { id: `${category.id}_floor`, name: 'Lampu Lantai', slug: 'floor-lamp' },
-            { id: `${category.id}_wall_lamp`, name: 'Lampu Dinding', slug: 'wall-lamp' },
-            { id: `${category.id}_outdoor`, name: 'Lampu Outdoor', slug: 'outdoor-lamp' },
-          );
-        } else if (
-          categoryName.includes('textile') ||
-          categoryName.includes('tekstil') ||
-          categoryName.includes('kain')
-        ) {
-          mockSubCategories.push(
-            { id: `${category.id}_curtain`, name: 'Gorden & Tirai', slug: 'curtain' },
-            { id: `${category.id}_pillow`, name: 'Bantal & Cushion', slug: 'pillow' },
-            { id: `${category.id}_carpet`, name: 'Karpet & Permadani', slug: 'carpet' },
-            { id: `${category.id}_bedsheet`, name: 'Sprei & Bed Cover', slug: 'bedsheet' },
-          );
-        } else if (
-          categoryName.includes('kitchen') ||
-          categoryName.includes('dapur') ||
-          categoryName.includes('peralatan')
-        ) {
-          mockSubCategories.push(
-            { id: `${category.id}_cookware`, name: 'Peralatan Masak', slug: 'cookware' },
-            { id: `${category.id}_tableware`, name: 'Peralatan Makan', slug: 'tableware' },
-            { id: `${category.id}_storage_kitchen`, name: 'Penyimpanan Dapur', slug: 'storage-kitchen' },
-            { id: `${category.id}_appliance`, name: 'Peralatan Listrik', slug: 'appliance' },
-          );
-        } else {
-          // For any other category, add some generic sub-categories to demonstrate hover functionality
-          mockSubCategories.push(
-            { id: `${category.id}_premium`, name: 'Premium Collection', slug: 'premium' },
-            { id: `${category.id}_budget`, name: 'Budget Friendly', slug: 'budget' },
-            { id: `${category.id}_new`, name: 'Koleksi Terbaru', slug: 'new' },
-          );
-        }
-
         return {
           ...category,
           sub_category: category.sub_category ? [...category.sub_category] : [],
@@ -112,16 +45,13 @@ export default function GlobalCategory() {
     const currentCategoryId = query.get('category_id');
 
     if (currentCategoryId === id) {
-      // If same category is clicked, clear all filters
       navigate({ search: '', pathname: '/' });
     } else {
-      // Navigate to category, clear sub-category
       navigate({ pathname: '', search: `?category_id=${id}` });
     }
   };
 
   const handleSubCategoryClick = (categoryId: string, subCategoryId: string) => {
-    // Navigate with both category and sub-category
     navigate({
       pathname: '',
       search: `?category_id=${categoryId}&sub_category_id=${subCategoryId}`,

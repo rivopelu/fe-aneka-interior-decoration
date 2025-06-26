@@ -9,7 +9,9 @@ import { ENDPOINT } from '../../../constants/endpoint';
 import toast from 'react-hot-toast';
 import { IResMasterData } from '../../../types/response/IResMasterData';
 import { IReqCreateSubCategory } from '../../../types/request/IReqCreateSubCategory';
+import { IReqEditSubCategory } from '../../../types/request/IReqEditSubCategory';
 import { ILabelValue } from '../../../types/type/ILabelValue';
+import { IResSubCategory } from '../../../types/response/IResMasterData';
 
 export function useAdminCategoryPage() {
   const productAction = new ProductAction();
@@ -24,6 +26,11 @@ export function useAdminCategoryPage() {
   const [showSubCategoryModal, setShowSubCategoryModal] = useState<boolean>(false);
   const [loadingSubCategoryForm, setLoadingSubCategoryForm] = useState<boolean>(false);
   const [categoryOptions, setCategoryOptions] = useState<ILabelValue<string>[]>([]);
+
+  // Sub-category edit states
+  const [showEditSubCategoryModal, setShowEditSubCategoryModal] = useState<boolean>(false);
+  const [loadingEditSubCategoryForm, setLoadingEditSubCategoryForm] = useState<boolean>(false);
+  const [editingSubCategory, setEditingSubCategory] = useState<IResSubCategory | null>(null);
 
   const httpService = new HttpService();
   const errorService = new ErrorService();
@@ -53,6 +60,16 @@ export function useAdminCategoryPage() {
       category_id: '',
     },
     onSubmit: (values) => onCreateSubCategory(values),
+  });
+
+  // Edit sub-category formik
+  const editSubCategoryFormik = useFormik<IReqEditSubCategory>({
+    initialValues: {
+      id: '',
+      name: '',
+      category_id: '',
+    },
+    onSubmit: (values) => onEditSubCategory(values),
   });
 
   // Update category options when data changes
@@ -151,6 +168,57 @@ export function useAdminCategoryPage() {
     subCategoryFormik.resetForm();
   }
 
+  // Edit sub-category functions
+  function onEditSubCategory(data: IReqEditSubCategory) {
+    setLoadingEditSubCategoryForm(true);
+    categoryAction
+      .editSubCategory(data)
+      .then(() => {
+        toast.success('Sub-Category berhasil diupdate');
+        onCloseEditSubCategoryModal();
+        editSubCategoryFormik.resetForm();
+        setLoadingEditSubCategoryForm(false);
+        fetchData(); // Refresh the category list
+      })
+      .catch((e) => {
+        errorService.fetchApiError(e);
+        setLoadingEditSubCategoryForm(false);
+      });
+  }
+
+  function onCloseEditSubCategoryModal() {
+    setShowEditSubCategoryModal(false);
+    editSubCategoryFormik.resetForm();
+    setEditingSubCategory(null);
+  }
+
+  function onClickEditSubCategory(subCategory: IResSubCategory) {
+    setEditingSubCategory(subCategory);
+    editSubCategoryFormik.setValues({
+      id: subCategory.id,
+      name: subCategory.name,
+      category_id: subCategory.category_id,
+    });
+    setShowEditSubCategoryModal(true);
+  }
+
+  function onDeleteSubCategory(id: string) {
+    if (window.confirm('Apakah Anda yakin ingin menghapus sub-category ini?')) {
+      setLoadingSubCategoryForm(true);
+      categoryAction
+        .deleteSubCategory(id)
+        .then(() => {
+          toast.success('Sub-Category berhasil dihapus');
+          setLoadingSubCategoryForm(false);
+          fetchData(); // Refresh the category list
+        })
+        .catch((e) => {
+          errorService.fetchApiError(e);
+          setLoadingSubCategoryForm(false);
+        });
+    }
+  }
+
   return {
     data,
     onCloseModalForm,
@@ -167,5 +235,14 @@ export function useAdminCategoryPage() {
     loadingSubCategoryForm,
     onCloseSubCategoryModal,
     categoryOptions,
+    // Edit sub-category functionality
+    showEditSubCategoryModal,
+    setShowEditSubCategoryModal,
+    editSubCategoryFormik,
+    loadingEditSubCategoryForm,
+    onCloseEditSubCategoryModal,
+    onClickEditSubCategory,
+    onDeleteSubCategory,
+    editingSubCategory,
   };
 }

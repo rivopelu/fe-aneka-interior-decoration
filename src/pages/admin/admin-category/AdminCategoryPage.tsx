@@ -1,4 +1,4 @@
-import { MdAdd, MdDelete, MdEdit, MdCategory } from 'react-icons/md';
+import { MdAdd, MdDelete, MdEdit, MdCategory, MdSubdirectoryArrowRight } from 'react-icons/md';
 import { Card, CardBody } from '../../../components/Card';
 import IconButton from '../../../components/IconButton';
 import PageContainer from '../../../components/PageContainer';
@@ -87,6 +87,51 @@ export default function AdminCategoryPage() {
       </Card>
     );
   }
+
+  function bodyModalEditSubCategoryForm() {
+    return (
+      <Card>
+        <CardBody>
+          <div className="flex items-center gap-2">
+            <MdEdit className="w-5 h-5" />
+            <span>Edit Sub-Category</span>
+          </div>
+        </CardBody>
+        <Divider />
+        <CardBody className="min-w-sm space-y-4">
+          <FormikProvider value={page.editSubCategoryFormik}>
+            <InputSelect
+              required
+              name="category_id"
+              label="Pilih Category Utama"
+              placeholder="Pilih category..."
+              options={page.categoryOptions}
+            />
+            <InputText
+              required
+              id="name"
+              name="name"
+              label="Nama Sub-Category"
+              placeholder="Masukan nama sub-category"
+            />
+          </FormikProvider>
+        </CardBody>
+        <Divider />
+        <CardBody className="grid grid-cols-2 gap-2">
+          <Button color="error" onClick={page.onCloseEditSubCategoryModal}>
+            BATAL
+          </Button>
+          <Button
+            loading={page.loadingEditSubCategoryForm}
+            onClick={() => page.editSubCategoryFormik.handleSubmit()}
+            disable={!page.editSubCategoryFormik.values.name || !page.editSubCategoryFormik.values.category_id}
+          >
+            UPDATE
+          </Button>
+        </CardBody>
+      </Card>
+    );
+  }
   return (
     <div>
       <PopupModal open={page.showModalForm} onClose={page.onCloseModalForm} component={bodyModalForm()} />
@@ -94,6 +139,11 @@ export default function AdminCategoryPage() {
         open={page.showSubCategoryModal}
         onClose={page.onCloseSubCategoryModal}
         component={bodyModalSubCategoryForm()}
+      />
+      <PopupModal
+        open={page.showEditSubCategoryModal}
+        onClose={page.onCloseEditSubCategoryModal}
+        component={bodyModalEditSubCategoryForm()}
       />
       <PageContainer>
         <div className="flex items-center justify-between">
@@ -116,12 +166,16 @@ export default function AdminCategoryPage() {
             </Button>
           </div>
         </div>
-        <div className="grid gap-3 grid-cols-2">
+        <div className="grid gap-3 grid-cols-1">
           {page.data.map((item, i) => (
             <Card key={i}>
               <CardBody>
-                <div className="flex items-center justify-between">
-                  <div>{item.name}</div>
+                {/* Main Category */}
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-2">
+                    <MdCategory className="w-5 h-5 text-primary-main" />
+                    <span className="font-semibold text-lg">{item.name}</span>
+                  </div>
                   <div className="flex gap-1">
                     <IconButton onClick={() => page.onClickDeleteCategory(item.id)}>
                       <MdDelete color="red" />
@@ -131,6 +185,40 @@ export default function AdminCategoryPage() {
                     </IconButton>
                   </div>
                 </div>
+
+                {/* Sub-Categories */}
+                {item.sub_category && item.sub_category.length > 0 && (
+                  <div className="ml-6 space-y-2">
+                    <div className="text-sm text-gray-600 font-medium mb-2">Sub-Kategori:</div>
+                    {item.sub_category.map((subCat, subIndex) => (
+                      <div key={subIndex} className="flex items-center justify-between p-2 bg-gray-50 rounded-md">
+                        <div className="flex items-center gap-2">
+                          <MdSubdirectoryArrowRight className="w-4 h-4 text-gray-500" />
+                          <span className="text-gray-700">{subCat.name}</span>
+                        </div>
+                        <div className="flex gap-1">
+                          <IconButton
+                            onClick={() => page.onDeleteSubCategory(subCat.id)}
+                            className="text-red-500 hover:bg-red-50"
+                          >
+                            <MdDelete size={16} />
+                          </IconButton>
+                          <IconButton
+                            onClick={() => page.onClickEditSubCategory(subCat)}
+                            className="text-blue-500 hover:bg-blue-50"
+                          >
+                            <MdEdit size={16} />
+                          </IconButton>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* No Sub-Categories Message */}
+                {(!item.sub_category || item.sub_category.length === 0) && (
+                  <div className="ml-6 text-sm text-gray-500 italic">Belum ada sub-kategori</div>
+                )}
               </CardBody>
             </Card>
           ))}

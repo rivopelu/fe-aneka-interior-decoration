@@ -55,13 +55,21 @@ export default function NewProductPage() {
                   placeholder="Masukan Harga"
                 />
                 <InputSelect
-                  label="category"
-                  placeholder="Pilih kategory"
+                  label="Kategori"
+                  placeholder="Pilih kategori"
                   options={page.listCategory}
                   name="category_id"
+                  required
+                />
+                <InputSelect
+                  label="Sub-Kategori"
+                  placeholder="Pilih sub-kategori..."
+                  options={page.listSubCategory}
+                  name="sub_category_id"
+                  disabled={!page.formik.values.category_id}
                 />
                 <Button loading={page.loadingSubmit} onClick={() => page.formik.handleSubmit()}>
-                  {id ? 'edit' : 'buat'}
+                  {id ? 'Edit' : 'Buat'}
                 </Button>
               </Grid>
             </CardBody>

@@ -32,4 +32,6 @@ export const ENDPOINT = {
   EDIT_CATEGORY: () => `/v1/category/edit`,
   DELETE_CATEGORY: (id: string) => `/v1/category/delete/${id}`,
   CREATE_SUB_CATEGORY: () => `/v1/sub-category/new`,
+  EDIT_SUB_CATEGORY: () => `/v1/sub-category/edit`,
+  DELETE_SUB_CATEGORY: (id: string) => `/v1/sub-category/delete/${id}`,
 };

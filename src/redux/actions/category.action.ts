@@ -5,6 +5,7 @@ import BaseActions from '../base-actions';
 import { productSlice } from '../reducers/product.reducers';
 import { IResMasterData } from '../../types/response/IResMasterData';
 import { IReqCreateSubCategory } from '../../types/request/IReqCreateSubCategory';
+import { IReqEditSubCategory } from '../../types/request/IReqEditSubCategory';
 
 export class CategoryAction extends BaseActions {
   private action = productSlice.actions;
@@ -29,6 +30,34 @@ export class CategoryAction extends BaseActions {
       this.httpService
         .POST(ENDPOINT.CREATE_SUB_CATEGORY(), data)
         .then((res: BaseResponse<IResMasterData>) => {
+          resolve(res.data.response_data);
+        })
+        .catch((e) => {
+          this.errorService.fetchApiError(e);
+          reject(e);
+        });
+    });
+  }
+
+  editSubCategory(data: IReqEditSubCategory) {
+    return new Promise((resolve, reject) => {
+      this.httpService
+        .PUT(ENDPOINT.EDIT_SUB_CATEGORY(), data)
+        .then((res: BaseResponse<IResMasterData>) => {
+          resolve(res.data.response_data);
+        })
+        .catch((e) => {
+          this.errorService.fetchApiError(e);
+          reject(e);
+        });
+    });
+  }
+
+  deleteSubCategory(id: string) {
+    return new Promise((resolve, reject) => {
+      this.httpService
+        .DELETE(ENDPOINT.DELETE_SUB_CATEGORY(id))
+        .then((res: BaseResponse<any>) => {
           resolve(res.data.response_data);
         })
         .catch((e) => {

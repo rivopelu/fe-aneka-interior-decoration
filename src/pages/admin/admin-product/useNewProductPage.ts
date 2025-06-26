@@ -26,6 +26,8 @@ export function useNewProductPage() {
   const [loadingSubmit, setLoadingSubmit] = useState<boolean>(false);
 
   const [listCategory, setListCategory] = useState<ILabelValue<string>[]>([]);
+  const [listSubCategory, setListSubCategory] = useState<ILabelValue<string>[]>([]);
+  const [previousCategoryId, setPreviousCategoryId] = useState<string>('');
   const initValue: IReqCreateProduct = {
     category_id: '',
     description: '',
@@ -51,12 +53,15 @@ export function useNewProductPage() {
     validationSchema: validationSchema,
     onSubmit: (e) => {
       setLoadingSubmit(true);
-      httpService
-        .POST(id ? ENDPOINT.EDIT_PRODUCT(id) : ENDPOINT.CREATE_PRODUCT(), e)
+      const apiCall = id
+        ? httpService.POST(ENDPOINT.EDIT_PRODUCT(id), e)
+        : httpService.POST(ENDPOINT.CREATE_PRODUCT(), e);
+
+      apiCall
         .then(() => {
           setLoadingSubmit(false);
           if (id) {
-            toast.success('Produk berhasil diedit');
+            toast.success('Produk berhasil diperbarui');
           } else {
             toast.success('Produk berhasil dibuat');
           }
@@ -108,5 +113,39 @@ export function useNewProductPage() {
     );
   }, [Product.listCategory?.data]);
 
-  return { listCategory, formik, loadingSubmit, loadingDetail };
+  // Update sub-categories when category changes
+  useEffect(() => {
+    const selectedCategoryId = formik.values.category_id;
+    const categoryData = Product.listCategory?.data;
+
+    if (!selectedCategoryId || !categoryData) {
+      setListSubCategory([]);
+      return;
+    }
+
+    const selectedCategory = categoryData.find((cat) => cat.id === selectedCategoryId);
+    if (selectedCategory && selectedCategory.sub_category) {
+      const subCategoryOptions = selectedCategory.sub_category.map((subCat) => ({
+        label: subCat.name,
+        value: subCat.id,
+      }));
+      setListSubCategory(subCategoryOptions);
+    } else {
+      setListSubCategory([]);
+    }
+  }, [formik.values.category_id, Product.listCategory?.data]);
+
+  // Handle sub-category clearing when category changes
+  useEffect(() => {
+    const currentCategoryId = formik.values.category_id;
+
+    // Clear sub-category when category changes (but not on initial load or edit mode setup)
+    if (previousCategoryId && previousCategoryId !== currentCategoryId) {
+      formik.setFieldValue('sub_category_id', '');
+    }
+
+    setPreviousCategoryId(currentCategoryId);
+  }, [formik.values.category_id]);
+
+  return { listCategory, listSubCategory, formik, loadingSubmit, loadingDetail };
 }
