@@ -3,5 +3,6 @@ export interface IReqCreateProduct {
   description: string;
   image_url: string;
   category_id: string;
+  sub_category_id: string;
   price: number | null;
 }

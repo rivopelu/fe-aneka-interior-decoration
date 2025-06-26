@@ -13,6 +13,7 @@ export function useHomePage() {
   const query = useQuery();
   const [searchValue, setSearchValue] = useState<string>(() => query.get('q') || '');
   const [category, setCategory] = useState<string>(() => query.get('category_id') || '');
+  const [subCategory, setSubCategory] = useState<string>(() => query.get('sub_category_id') || '');
   const [listData, setListData] = useState<IResListProduct[]>([]);
   const [page, setPage] = useState<number>(0);
   const [size] = useState<number>(10);
@@ -21,37 +22,38 @@ export function useHomePage() {
   useEffect(() => {
     setSearchValue(query.get('q') || '');
     setCategory(query.get('category_id') || '');
+    setSubCategory(query.get('sub_category_id') || '');
   }, []);
 
   useEffect(() => {
     setSearchValue(query.get('q') || '');
-
-  }, [query.get("q")])
-
-  useEffect(() => {
-    if (categoryId) {
-      fetchData(page, size, '', categoryId);
-    } else {
-      fetchData(page, size);
-    }
-  }, [query.get('category_id')]);
+  }, [query.get('q')]);
 
   useEffect(() => {
-    fetchData(page, size, searchValue);
-  }, [searchValue]);
+    const currentCategoryId = query.get('category_id');
+    const currentSubCategoryId = query.get('sub_category_id');
+    const currentSearch = query.get('q');
+
+    fetchData(page, size, currentSearch || '', currentCategoryId || '', currentSubCategoryId || '');
+  }, [query.get('category_id'), query.get('sub_category_id'), query.get('q')]);
 
   useEffect(() => {
-    fetchData(page, size, '', category);
-  }, [category]);
+    fetchData(page, size, searchValue, category, subCategory);
+  }, [searchValue, category, subCategory]);
 
-  function fetchData(page: number, size: number, search?: string, category?: string) {
+  function fetchData(page: number, size: number, search?: string, category?: string, sub_category?: string) {
     let queryString = `?page=${page}&size=${size}`;
+
     if (search) {
-      queryString = queryString + `&name=${search}`;
+      queryString += `&name=${search}`;
     }
     if (category) {
-      queryString = queryString + `?page=${page}&size=${size}&category_id=${category}`;
+      queryString += `&category_id=${category}`;
     }
+    if (sub_category) {
+      queryString += `&sub_category_id=${sub_category}`;
+    }
+
     console.log(queryString);
     dispatch(productActions.listProduct(queryString));
   }

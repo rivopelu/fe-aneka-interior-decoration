@@ -30,6 +30,7 @@ export function useNewProductPage() {
     category_id: '',
     description: '',
     image_url: '',
+    sub_category_id: '',
     name: '',
     price: null,
   };
@@ -85,6 +86,7 @@ export function useNewProductPage() {
         price: detail.price,
         name: detail.name,
         description: detail.description || '',
+        sub_category_id: detail.sub_category_id || '',
         image_url: detail.image || '',
       };
       formik.setValues(data);

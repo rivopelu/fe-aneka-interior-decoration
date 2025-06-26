@@ -8,5 +8,8 @@ export interface IResDetailProduct {
   category_slug: string;
   image: string;
   price: number;
-  created_date: Date
+  sub_category_id?: string;
+  sub_category_name?: string;
+  sub_category_slug?: string;
+  created_date: Date;
 }
